@@ -1,0 +1,257 @@
+****** Not sure if this must be run again
+module use /share/modules/grace
+module load lang/python/2.7
+
+
+grace
+export PATH=/usr/java/jdk1.7.0_67-cloudera/bin:$PATH
+export JAVA_HOME=/usr/java/jdk1.7.0_67-cloudera/
+cd work/python/Metadata
+
+#####################################################################################################################################3
+
+rm -r ./Abrha/results
+hdfs dfs -rm -r ./Abrha
+hdfs dfs -mkdir Abrha
+hdfs dfs -put ./Abrha/* ./Abrha
+hadoop jar /usr/lib/hadoop-mapreduce/hadoop-streaming-2.6.0-cdh5.9.0.jar \
+-D mapred.map.tasks=1000 \
+-D mapred.reduce.tasks=1 \
+-D mapreduce.map.memory.mb=8192 \
+-files    ./Abrha/CFS.csv,./Abrha/DFS.csv,./Mapper.py,./Reducer.py \
+-mapper  ./Mapper.py \
+-reducer ./Reducer.py \
+-input   ./Abrha/CZ.csv \
+-output  ./Abrha/results
+hdfs dfs -get ./Abrha/results ./Abrha/
+hdfs dfs -rm -r ./Abrha
+
+rm -r ./Astraat/results
+hdfs dfs -rm -r ./Astraat
+hdfs dfs -mkdir Astraat
+hdfs dfs -put ./Astraat/* ./Astraat
+hadoop jar /usr/lib/hadoop-mapreduce/hadoop-streaming-2.6.0-cdh5.9.0.jar \
+-D mapred.map.tasks=1000 \
+-D mapred.reduce.tasks=1 \
+-D mapreduce.map.memory.mb=8192 \
+-files    ./Astraat/CFS.csv,./Astraat/DFS.csv,./Mapper.py,./Reducer.py \
+-mapper  ./Mapper.py \
+-reducer ./Reducer.py \
+-input   ./Astraat/CZ.csv \
+-output  ./Astraat/results
+hdfs dfs -get ./Astraat/results ./Astraat/
+hdfs dfs -rm -r ./Astraat
+
+rm -r ./Bonji/results
+hdfs dfs -rm -r ./Bonji
+hdfs dfs -mkdir Bonji
+hdfs dfs -put ./Bonji/* ./Bonji
+hadoop jar /usr/lib/hadoop-mapreduce/hadoop-streaming-2.6.0-cdh5.9.0.jar \
+-D mapred.map.tasks=1000 \
+-D mapred.reduce.tasks=1 \
+-D mapreduce.map.memory.mb=8192 \
+-files    ./Bonji/CFS.csv,./Bonji/DFS.csv,./Mapper.py,./Reducer.py \
+-mapper  ./Mapper.py \
+-reducer ./Reducer.py \
+-input   ./Bonji/CZ.csv \
+-output  ./Bonji/results
+hdfs dfs -get ./Bonji/results ./Bonji/
+hdfs dfs -rm -r ./Bonji
+
+rm -r ./Heeda/results
+hdfs dfs -rm -r ./Heeda
+hdfs dfs -mkdir Heeda
+hdfs dfs -put ./Heeda/* ./Heeda
+hadoop jar /usr/lib/hadoop-mapreduce/hadoop-streaming-2.6.0-cdh5.9.0.jar \
+-D mapred.map.tasks=1000 \
+-D mapred.reduce.tasks=1 \
+-D mapreduce.map.memory.mb=8192 \
+-files    ./Heeda/CFS.csv,./Heeda/DFS.csv,./Mapper.py,./Reducer.py \
+-mapper  ./Mapper.py \
+-reducer ./Reducer.py \
+-input   ./Heeda/CZ.csv \
+-output  ./Heeda/results
+hdfs dfs -get ./Heeda/results ./Heeda/
+hdfs dfs -rm -r ./Heeda
+
+rm -r ./Hickam/results
+hdfs dfs -rm -r ./Hickam
+hdfs dfs -mkdir Hickam
+hdfs dfs -put ./Hickam/* ./Hickam
+hadoop jar /usr/lib/hadoop-mapreduce/hadoop-streaming-2.6.0-cdh5.9.0.jar \
+-D mapred.map.tasks=1000 \
+-D mapred.reduce.tasks=1 \
+-D mapreduce.map.memory.mb=8192 \
+-files    ./Hickam/CFS.csv,./Hickam/DFS.csv,./Mapper.py,./Reducer.py \
+-mapper  ./Mapper.py \
+-reducer ./Reducer.py \
+-input   ./Hickam/CZ.csv \
+-output  ./Hickam/results
+hdfs dfs -get ./Hickam/results ./Hickam/
+hdfs dfs -rm -r ./Hickam
+
+rm -r ./Hmouda/results
+hdfs dfs -rm -r ./Hmouda
+hdfs dfs -mkdir Hmouda
+hdfs dfs -put ./Hmouda/* ./Hmouda
+hadoop jar /usr/lib/hadoop-mapreduce/hadoop-streaming-2.6.0-cdh5.9.0.jar \
+-D mapred.map.tasks=1000 \
+-D mapred.reduce.tasks=1 \
+-D mapreduce.map.memory.mb=8192 \
+-files    ./Hmouda/CFS.csv,./Hmouda/DFS.csv,./Mapper.py,./Reducer.py \
+-mapper  ./Mapper.py \
+-reducer ./Reducer.py \
+-input   ./Hmouda/CZ.csv \
+-output  ./Hmouda/results
+hdfs dfs -get ./Hmouda/results ./Hmouda/
+hdfs dfs -rm -r ./Hmouda
+
+rm -r ./Holu/results
+hdfs dfs -rm -r ./Holu
+hdfs dfs -mkdir Holu
+hdfs dfs -put ./Holu/* ./Holu
+hadoop jar /usr/lib/hadoop-mapreduce/hadoop-streaming-2.6.0-cdh5.9.0.jar \
+-D mapred.map.tasks=1000 \
+-D mapred.reduce.tasks=1 \
+-D mapreduce.map.memory.mb=8192 \
+-files    ./Holu/CFS.csv,./Holu/DFS.csv,./Mapper.py,./Reducer.py \
+-mapper  ./Mapper.py \
+-reducer ./Reducer.py \
+-input   ./Holu/CZ.csv \
+-output  ./Holu/results
+hdfs dfs -get ./Holu/results ./Holu/
+hdfs dfs -rm -r ./Holu
+
+rm -r ./Khufu/results
+hdfs dfs -rm -r ./Khufu
+hdfs dfs -mkdir Khufu
+hdfs dfs -put ./Khufu/* ./Khufu
+hadoop jar /usr/lib/hadoop-mapreduce/hadoop-streaming-2.6.0-cdh5.9.0.jar \
+-D mapred.map.tasks=1000 \
+-D mapred.reduce.tasks=1 \
+-D mapreduce.map.memory.mb=8192 \
+-files    ./Khufu/CFS.csv,./Khufu/DFS.csv,./Mapper.py,./Reducer.py \
+-mapper  ./Mapper.py \
+-reducer ./Reducer.py \
+-input   ./Khufu/CZ.csv \
+-output  ./Khufu/results
+hdfs dfs -get ./Khufu/results ./Khufu/
+hdfs dfs -rm -r ./Khufu
+
+#####################################################################################################################################3
+
+rm -r ./Laghbesh/results
+hdfs dfs -rm -r ./Laghbesh
+hdfs dfs -mkdir Laghbesh
+hdfs dfs -put ./Laghbesh/* ./Laghbesh
+hadoop jar /usr/lib/hadoop-mapreduce/hadoop-streaming-2.6.0-cdh5.9.0.jar \
+-D mapred.map.tasks=1000 \
+-D mapred.reduce.tasks=1 \
+-D mapreduce.map.memory.mb=8192 \
+-files    ./Laghbesh/CFS.csv,./Laghbesh/DFS.csv,./Mapper.py,./Reducer.py \
+-mapper  ./Mapper.py \
+-reducer ./Reducer.py \
+-input   ./Laghbesh/CZ.csv \
+-output  ./Laghbesh/results
+hdfs dfs -get ./Laghbesh/results ./Laghbesh/
+hdfs dfs -rm -r ./Laghbesh
+
+rm -r ./Mekah/results
+hdfs dfs -rm -r ./Mekah
+hdfs dfs -mkdir Mekah
+hdfs dfs -put ./Mekah/* ./Mekah
+hadoop jar /usr/lib/hadoop-mapreduce/hadoop-streaming-2.6.0-cdh5.9.0.jar \
+-D mapred.map.tasks=1000 \
+-D mapred.reduce.tasks=1 \
+-D mapreduce.map.memory.mb=8192 \
+-files    ./Mekah/CFS.csv,./Mekah/DFS.csv,./Mapper.py,./Reducer.py \
+-mapper  ./Mapper.py \
+-reducer ./Reducer.py \
+-input   ./Mekah/CZ.csv \
+-output  ./Mekah/results
+hdfs dfs -get ./Mekah/results ./Mekah/
+hdfs dfs -rm -r ./Mekah
+
+rm -r ./Mimyth/results
+hdfs dfs -rm -r ./Mimyth
+hdfs dfs -mkdir Mimyth
+hdfs dfs -put ./Mimyth/* ./Mimyth
+hadoop jar /usr/lib/hadoop-mapreduce/hadoop-streaming-2.6.0-cdh5.9.0.jar \
+-D mapred.map.tasks=1000 \
+-D mapred.reduce.tasks=1 \
+-D mapreduce.map.memory.mb=8192 \
+-files    ./Mimyth/CFS.csv,./Mimyth/DFS.csv,./Mapper.py,./Reducer.py \
+-mapper  ./Mapper.py \
+-reducer ./Reducer.py \
+-input   ./Mimyth/CZ.csv \
+-output  ./Mimyth/results
+hdfs dfs -get ./Mimyth/results ./Mimyth/
+hdfs dfs -rm -r ./Mimyth
+
+rm -r ./Sakis/results
+hdfs dfs -rm -r ./Sakis
+hdfs dfs -mkdir Sakis
+hdfs dfs -put ./Sakis/* ./Sakis
+hadoop jar /usr/lib/hadoop-mapreduce/hadoop-streaming-2.6.0-cdh5.9.0.jar \
+-D mapred.map.tasks=1000 \
+-D mapred.reduce.tasks=1 \
+-D mapreduce.map.memory.mb=8192 \
+-files    ./Sakis/CFS.csv,./Sakis/DFS.csv,./Mapper.py,./Reducer.py \
+-mapper  ./Mapper.py \
+-reducer ./Reducer.py \
+-input   ./Sakis/CZ.csv \
+-output  ./Sakis/results
+hdfs dfs -get ./Sakis/results ./Sakis/
+hdfs dfs -rm -r ./Sakis
+
+rm -r ./Sierra/results
+hdfs dfs -rm -r ./Sierra
+hdfs dfs -mkdir Sierra
+hdfs dfs -put ./Sierra/* ./Sierra
+hadoop jar /usr/lib/hadoop-mapreduce/hadoop-streaming-2.6.0-cdh5.9.0.jar \
+-D mapred.map.tasks=1000 \
+-D mapred.reduce.tasks=1 \
+-D mapreduce.map.memory.mb=8192 \
+-files    ./Sierra/CFS.csv,./Sierra/DFS.csv,./Mapper.py,./Reducer.py \
+-mapper  ./Mapper.py \
+-reducer ./Reducer.py \
+-input   ./Sierra/CZ.csv \
+-output  ./Sierra/results
+hdfs dfs -get ./Sierra/results ./Sierra/
+hdfs dfs -rm -r ./Sierra
+
+rm -r ./Sokhoi/results
+hdfs dfs -rm -r ./Sokhoi
+hdfs dfs -mkdir Sokhoi
+hdfs dfs -put ./Sokhoi/* ./Sokhoi
+hadoop jar /usr/lib/hadoop-mapreduce/hadoop-streaming-2.6.0-cdh5.9.0.jar \
+-D mapred.map.tasks=1000 \
+-D mapred.reduce.tasks=1 \
+-D mapreduce.map.memory.mb=8192 \
+-files    ./Sokhoi/CFS.csv,./Sokhoi/DFS.csv,./Mapper.py,./Reducer.py \
+-mapper  ./Mapper.py \
+-reducer ./Reducer.py \
+-input   ./Sokhoi/CZ.csv \
+-output  ./Sokhoi/results
+hdfs dfs -get ./Sokhoi/results ./Sokhoi/
+hdfs dfs -rm -r ./Sokhoi
+
+rm -r ./Yakouza/results
+hdfs dfs -rm -r ./Yakouza
+hdfs dfs -mkdir Yakouza
+hdfs dfs -put ./Yakouza/* ./Yakouza
+hadoop jar /usr/lib/hadoop-mapreduce/hadoop-streaming-2.6.0-cdh5.9.0.jar \
+-D mapred.map.tasks=1000 \
+-D mapred.reduce.tasks=1 \
+-D mapreduce.map.memory.mb=8192 \
+-files    ./Yakouza/CFS.csv,./Yakouza/DFS.csv,./Mapper.py,./Reducer.py \
+-mapper  ./Mapper.py \
+-reducer ./Reducer.py \
+-input   ./Yakouza/CZ.csv \
+-output  ./Yakouza/results
+hdfs dfs -get ./Yakouza/results ./Yakouza/
+hdfs dfs -rm -r ./Yakouza
+
+#####################################################################################################################################3
+
+python Composer.py

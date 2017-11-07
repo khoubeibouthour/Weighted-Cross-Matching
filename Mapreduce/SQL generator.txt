@@ -1,0 +1,509 @@
+**********************************************************************************************************************************************************************************************************
+***************    Abrha    ******************************************************************************************************************************************************************************
+**********************************************************************************************************************************************************************************************************
+
+Abrha-CFS.csv
+
+select comparisons.label, comparisons.face_recog, images.path, images.nbr_faces, images.filesize, TO_CHAR(images.datetimeoriginal, 'DD-Mon-YYYY HH24:MI:SS'), images.gpslatitude, images.gpslongitude, images.model, faces.description
+FROM faces, images, profiles, comparisons
+WHERE comparisons.face_recog <= 0.65
+AND faces.face_id = comparisons.face
+AND profiles.profile_id = comparisons.profile
+AND images.image_id = faces.image
+AND profiles.name = 'Abrha';
+
+Abrha-DFS.csv
+
+select comparisons.label, comparisons.face_recog, images.path, images.nbr_faces, images.filesize, TO_CHAR(images.datetimeoriginal, 'DD-Mon-YYYY HH24:MI:SS'), images.gpslatitude, images.gpslongitude, images.model, faces.description
+FROM faces, images, profiles, comparisons
+WHERE comparisons.face_recog > 1.67
+AND faces.face_id = comparisons.face
+AND profiles.profile_id = comparisons.profile
+AND images.image_id = faces.image
+AND profiles.name = 'Abrha';
+
+Abrha-CZ.csv
+
+select comparisons.label, comparisons.face_recog, images.path, images.nbr_faces, images.filesize, TO_CHAR(images.datetimeoriginal, 'DD-Mon-YYYY HH24:MI:SS'), images.gpslatitude, images.gpslongitude, images.model, faces.description
+FROM faces, images, profiles, comparisons
+WHERE comparisons.face_recog > 0.65 AND comparisons.face_recog <= 1.67
+AND faces.face_id = comparisons.face
+AND profiles.profile_id = comparisons.profile
+AND images.image_id = faces.image
+AND profiles.name = 'Abrha';
+
+**********************************************************************************************************************************************************************************************************
+***************    Astraat    ****************************************************************************************************************************************************************************
+**********************************************************************************************************************************************************************************************************
+
+Astraat-CFS.csv
+
+select comparisons.label, comparisons.face_recog, images.path, images.nbr_faces, images.filesize, TO_CHAR(images.datetimeoriginal, 'DD-Mon-YYYY HH24:MI:SS'), images.gpslatitude, images.gpslongitude, images.model, faces.description
+FROM faces, images, profiles, comparisons
+WHERE comparisons.face_recog <= 0.65
+AND faces.face_id = comparisons.face
+AND profiles.profile_id = comparisons.profile
+AND images.image_id = faces.image
+AND profiles.name = 'Astraat';
+
+Astraat-DFS.csv
+
+select comparisons.label, comparisons.face_recog, images.path, images.nbr_faces, images.filesize, TO_CHAR(images.datetimeoriginal, 'DD-Mon-YYYY HH24:MI:SS'), images.gpslatitude, images.gpslongitude, images.model, faces.description
+FROM faces, images, profiles, comparisons
+WHERE comparisons.face_recog > 1.67
+AND faces.face_id = comparisons.face
+AND profiles.profile_id = comparisons.profile
+AND images.image_id = faces.image
+AND profiles.name = 'Astraat';
+
+Astraat-CZ.csv
+
+select comparisons.label, comparisons.face_recog, images.path, images.nbr_faces, images.filesize, TO_CHAR(images.datetimeoriginal, 'DD-Mon-YYYY HH24:MI:SS'), images.gpslatitude, images.gpslongitude, images.model, faces.description
+FROM faces, images, profiles, comparisons
+WHERE comparisons.face_recog > 0.65 AND comparisons.face_recog <= 1.67
+AND faces.face_id = comparisons.face
+AND profiles.profile_id = comparisons.profile
+AND images.image_id = faces.image
+AND profiles.name = 'Astraat';
+
+**********************************************************************************************************************************************************************************************************
+***************    Bonji    ****************************************************************************************************************************************************************************
+**********************************************************************************************************************************************************************************************************
+
+Bonji-CFS.csv
+
+select comparisons.label, comparisons.face_recog, images.path, images.nbr_faces, images.filesize, TO_CHAR(images.datetimeoriginal, 'DD-Mon-YYYY HH24:MI:SS'), images.gpslatitude, images.gpslongitude, images.model, faces.description
+FROM faces, images, profiles, comparisons
+WHERE comparisons.face_recog <= 0.65
+AND faces.face_id = comparisons.face
+AND profiles.profile_id = comparisons.profile
+AND images.image_id = faces.image
+AND profiles.name = 'Bonji';
+
+Bonji-DFS.csv
+
+select comparisons.label, comparisons.face_recog, images.path, images.nbr_faces, images.filesize, TO_CHAR(images.datetimeoriginal, 'DD-Mon-YYYY HH24:MI:SS'), images.gpslatitude, images.gpslongitude, images.model, faces.description
+FROM faces, images, profiles, comparisons
+WHERE comparisons.face_recog > 1.67
+AND faces.face_id = comparisons.face
+AND profiles.profile_id = comparisons.profile
+AND images.image_id = faces.image
+AND profiles.name = 'Bonji';
+
+Bonji-CZ.csv
+
+select comparisons.label, comparisons.face_recog, images.path, images.nbr_faces, images.filesize, TO_CHAR(images.datetimeoriginal, 'DD-Mon-YYYY HH24:MI:SS'), images.gpslatitude, images.gpslongitude, images.model, faces.description
+FROM faces, images, profiles, comparisons
+WHERE comparisons.face_recog > 0.65 AND comparisons.face_recog <= 1.67
+AND faces.face_id = comparisons.face
+AND profiles.profile_id = comparisons.profile
+AND images.image_id = faces.image
+AND profiles.name = 'Bonji';
+
+**********************************************************************************************************************************************************************************************************
+***************    Heeda    ****************************************************************************************************************************************************************************
+**********************************************************************************************************************************************************************************************************
+
+Heeda-CFS.csv
+
+select comparisons.label, comparisons.face_recog, images.path, images.nbr_faces, images.filesize, TO_CHAR(images.datetimeoriginal, 'DD-Mon-YYYY HH24:MI:SS'), images.gpslatitude, images.gpslongitude, images.model, faces.description
+FROM faces, images, profiles, comparisons
+WHERE comparisons.face_recog <= 0.65
+AND faces.face_id = comparisons.face
+AND profiles.profile_id = comparisons.profile
+AND images.image_id = faces.image
+AND profiles.name = 'Heeda';
+
+Heeda-DFS.csv
+
+select comparisons.label, comparisons.face_recog, images.path, images.nbr_faces, images.filesize, TO_CHAR(images.datetimeoriginal, 'DD-Mon-YYYY HH24:MI:SS'), images.gpslatitude, images.gpslongitude, images.model, faces.description
+FROM faces, images, profiles, comparisons
+WHERE comparisons.face_recog > 1.67
+AND faces.face_id = comparisons.face
+AND profiles.profile_id = comparisons.profile
+AND images.image_id = faces.image
+AND profiles.name = 'Heeda';
+
+Heeda-CZ.csv
+
+select comparisons.label, comparisons.face_recog, images.path, images.nbr_faces, images.filesize, TO_CHAR(images.datetimeoriginal, 'DD-Mon-YYYY HH24:MI:SS'), images.gpslatitude, images.gpslongitude, images.model, faces.description
+FROM faces, images, profiles, comparisons
+WHERE comparisons.face_recog > 0.65 AND comparisons.face_recog <= 1.67
+AND faces.face_id = comparisons.face
+AND profiles.profile_id = comparisons.profile
+AND images.image_id = faces.image
+AND profiles.name = 'Heeda';
+
+**********************************************************************************************************************************************************************************************************
+***************    Hickam    ****************************************************************************************************************************************************************************
+**********************************************************************************************************************************************************************************************************
+
+Hickam-CFS.csv
+
+select comparisons.label, comparisons.face_recog, images.path, images.nbr_faces, images.filesize, TO_CHAR(images.datetimeoriginal, 'DD-Mon-YYYY HH24:MI:SS'), images.gpslatitude, images.gpslongitude, images.model, faces.description
+FROM faces, images, profiles, comparisons
+WHERE comparisons.face_recog <= 0.65
+AND faces.face_id = comparisons.face
+AND profiles.profile_id = comparisons.profile
+AND images.image_id = faces.image
+AND profiles.name = 'Hickam';
+
+Hickam-DFS.csv
+
+select comparisons.label, comparisons.face_recog, images.path, images.nbr_faces, images.filesize, TO_CHAR(images.datetimeoriginal, 'DD-Mon-YYYY HH24:MI:SS'), images.gpslatitude, images.gpslongitude, images.model, faces.description
+FROM faces, images, profiles, comparisons
+WHERE comparisons.face_recog > 1.67
+AND faces.face_id = comparisons.face
+AND profiles.profile_id = comparisons.profile
+AND images.image_id = faces.image
+AND profiles.name = 'Hickam';
+
+Hickam-CZ.csv
+
+select comparisons.label, comparisons.face_recog, images.path, images.nbr_faces, images.filesize, TO_CHAR(images.datetimeoriginal, 'DD-Mon-YYYY HH24:MI:SS'), images.gpslatitude, images.gpslongitude, images.model, faces.description
+FROM faces, images, profiles, comparisons
+WHERE comparisons.face_recog > 0.65 AND comparisons.face_recog <= 1.67
+AND faces.face_id = comparisons.face
+AND profiles.profile_id = comparisons.profile
+AND images.image_id = faces.image
+AND profiles.name = 'Hickam';
+
+**********************************************************************************************************************************************************************************************************
+***************    Hmouda    ****************************************************************************************************************************************************************************
+**********************************************************************************************************************************************************************************************************
+
+Hmouda-CFS.csv
+
+select comparisons.label, comparisons.face_recog, images.path, images.nbr_faces, images.filesize, TO_CHAR(images.datetimeoriginal, 'DD-Mon-YYYY HH24:MI:SS'), images.gpslatitude, images.gpslongitude, images.model, faces.description
+FROM faces, images, profiles, comparisons
+WHERE comparisons.face_recog <= 0.65
+AND faces.face_id = comparisons.face
+AND profiles.profile_id = comparisons.profile
+AND images.image_id = faces.image
+AND profiles.name = 'Hmouda';
+
+Hmouda-DFS.csv
+
+select comparisons.label, comparisons.face_recog, images.path, images.nbr_faces, images.filesize, TO_CHAR(images.datetimeoriginal, 'DD-Mon-YYYY HH24:MI:SS'), images.gpslatitude, images.gpslongitude, images.model, faces.description
+FROM faces, images, profiles, comparisons
+WHERE comparisons.face_recog > 1.67
+AND faces.face_id = comparisons.face
+AND profiles.profile_id = comparisons.profile
+AND images.image_id = faces.image
+AND profiles.name = 'Hmouda';
+
+Hmouda-CZ.csv
+
+select comparisons.label, comparisons.face_recog, images.path, images.nbr_faces, images.filesize, TO_CHAR(images.datetimeoriginal, 'DD-Mon-YYYY HH24:MI:SS'), images.gpslatitude, images.gpslongitude, images.model, faces.description
+FROM faces, images, profiles, comparisons
+WHERE comparisons.face_recog > 0.65 AND comparisons.face_recog <= 1.67
+AND faces.face_id = comparisons.face
+AND profiles.profile_id = comparisons.profile
+AND images.image_id = faces.image
+AND profiles.name = 'Hmouda';
+
+**********************************************************************************************************************************************************************************************************
+***************    Holu    ****************************************************************************************************************************************************************************
+**********************************************************************************************************************************************************************************************************
+
+Holu-CFS.csv
+
+select comparisons.label, comparisons.face_recog, images.path, images.nbr_faces, images.filesize, TO_CHAR(images.datetimeoriginal, 'DD-Mon-YYYY HH24:MI:SS'), images.gpslatitude, images.gpslongitude, images.model, faces.description
+FROM faces, images, profiles, comparisons
+WHERE comparisons.face_recog <= 0.65
+AND faces.face_id = comparisons.face
+AND profiles.profile_id = comparisons.profile
+AND images.image_id = faces.image
+AND profiles.name = 'Holu';
+
+Holu-DFS.csv
+
+select comparisons.label, comparisons.face_recog, images.path, images.nbr_faces, images.filesize, TO_CHAR(images.datetimeoriginal, 'DD-Mon-YYYY HH24:MI:SS'), images.gpslatitude, images.gpslongitude, images.model, faces.description
+FROM faces, images, profiles, comparisons
+WHERE comparisons.face_recog > 1.67
+AND faces.face_id = comparisons.face
+AND profiles.profile_id = comparisons.profile
+AND images.image_id = faces.image
+AND profiles.name = 'Holu';
+
+Holu-CZ.csv
+
+select comparisons.label, comparisons.face_recog, images.path, images.nbr_faces, images.filesize, TO_CHAR(images.datetimeoriginal, 'DD-Mon-YYYY HH24:MI:SS'), images.gpslatitude, images.gpslongitude, images.model, faces.description
+FROM faces, images, profiles, comparisons
+WHERE comparisons.face_recog > 0.65 AND comparisons.face_recog <= 1.67
+AND faces.face_id = comparisons.face
+AND profiles.profile_id = comparisons.profile
+AND images.image_id = faces.image
+AND profiles.name = 'Holu';
+
+**********************************************************************************************************************************************************************************************************
+***************    Khufu    ****************************************************************************************************************************************************************************
+**********************************************************************************************************************************************************************************************************
+
+Khufu-CFS.csv
+
+select comparisons.label, comparisons.face_recog, images.path, images.nbr_faces, images.filesize, TO_CHAR(images.datetimeoriginal, 'DD-Mon-YYYY HH24:MI:SS'), images.gpslatitude, images.gpslongitude, images.model, faces.description
+FROM faces, images, profiles, comparisons
+WHERE comparisons.face_recog <= 0.65
+AND faces.face_id = comparisons.face
+AND profiles.profile_id = comparisons.profile
+AND images.image_id = faces.image
+AND profiles.name = 'Khufu';
+
+Khufu-DFS.csv
+
+select comparisons.label, comparisons.face_recog, images.path, images.nbr_faces, images.filesize, TO_CHAR(images.datetimeoriginal, 'DD-Mon-YYYY HH24:MI:SS'), images.gpslatitude, images.gpslongitude, images.model, faces.description
+FROM faces, images, profiles, comparisons
+WHERE comparisons.face_recog > 1.67
+AND faces.face_id = comparisons.face
+AND profiles.profile_id = comparisons.profile
+AND images.image_id = faces.image
+AND profiles.name = 'Khufu';
+
+Khufu-CZ.csv
+
+select comparisons.label, comparisons.face_recog, images.path, images.nbr_faces, images.filesize, TO_CHAR(images.datetimeoriginal, 'DD-Mon-YYYY HH24:MI:SS'), images.gpslatitude, images.gpslongitude, images.model, faces.description
+FROM faces, images, profiles, comparisons
+WHERE comparisons.face_recog > 0.65 AND comparisons.face_recog <= 1.67
+AND faces.face_id = comparisons.face
+AND profiles.profile_id = comparisons.profile
+AND images.image_id = faces.image
+AND profiles.name = 'Khufu';
+
+**********************************************************************************************************************************************************************************************************
+***************    Laghbesh    ****************************************************************************************************************************************************************************
+**********************************************************************************************************************************************************************************************************
+
+Laghbesh-CFS.csv
+
+select comparisons.label, comparisons.face_recog, images.path, images.nbr_faces, images.filesize, TO_CHAR(images.datetimeoriginal, 'DD-Mon-YYYY HH24:MI:SS'), images.gpslatitude, images.gpslongitude, images.model, faces.description
+FROM faces, images, profiles, comparisons
+WHERE comparisons.face_recog <= 0.65
+AND faces.face_id = comparisons.face
+AND profiles.profile_id = comparisons.profile
+AND images.image_id = faces.image
+AND profiles.name = 'Laghbesh';
+
+Laghbesh-DFS.csv
+
+select comparisons.label, comparisons.face_recog, images.path, images.nbr_faces, images.filesize, TO_CHAR(images.datetimeoriginal, 'DD-Mon-YYYY HH24:MI:SS'), images.gpslatitude, images.gpslongitude, images.model, faces.description
+FROM faces, images, profiles, comparisons
+WHERE comparisons.face_recog > 1.67
+AND faces.face_id = comparisons.face
+AND profiles.profile_id = comparisons.profile
+AND images.image_id = faces.image
+AND profiles.name = 'Laghbesh';
+
+Laghbesh-CZ.csv
+
+select comparisons.label, comparisons.face_recog, images.path, images.nbr_faces, images.filesize, TO_CHAR(images.datetimeoriginal, 'DD-Mon-YYYY HH24:MI:SS'), images.gpslatitude, images.gpslongitude, images.model, faces.description
+FROM faces, images, profiles, comparisons
+WHERE comparisons.face_recog > 0.65 AND comparisons.face_recog <= 1.67
+AND faces.face_id = comparisons.face
+AND profiles.profile_id = comparisons.profile
+AND images.image_id = faces.image
+AND profiles.name = 'Laghbesh';
+
+**********************************************************************************************************************************************************************************************************
+***************    Mekah    ****************************************************************************************************************************************************************************
+**********************************************************************************************************************************************************************************************************
+
+Mekah-CFS.csv
+
+select comparisons.label, comparisons.face_recog, images.path, images.nbr_faces, images.filesize, TO_CHAR(images.datetimeoriginal, 'DD-Mon-YYYY HH24:MI:SS'), images.gpslatitude, images.gpslongitude, images.model, faces.description
+FROM faces, images, profiles, comparisons
+WHERE comparisons.face_recog <= 0.65
+AND faces.face_id = comparisons.face
+AND profiles.profile_id = comparisons.profile
+AND images.image_id = faces.image
+AND profiles.name = 'Mekah';
+
+Mekah-DFS.csv
+
+select comparisons.label, comparisons.face_recog, images.path, images.nbr_faces, images.filesize, TO_CHAR(images.datetimeoriginal, 'DD-Mon-YYYY HH24:MI:SS'), images.gpslatitude, images.gpslongitude, images.model, faces.description
+FROM faces, images, profiles, comparisons
+WHERE comparisons.face_recog > 1.67
+AND faces.face_id = comparisons.face
+AND profiles.profile_id = comparisons.profile
+AND images.image_id = faces.image
+AND profiles.name = 'Mekah';
+
+Mekah-CZ.csv
+
+select comparisons.label, comparisons.face_recog, images.path, images.nbr_faces, images.filesize, TO_CHAR(images.datetimeoriginal, 'DD-Mon-YYYY HH24:MI:SS'), images.gpslatitude, images.gpslongitude, images.model, faces.description
+FROM faces, images, profiles, comparisons
+WHERE comparisons.face_recog > 0.65 AND comparisons.face_recog <= 1.67
+AND faces.face_id = comparisons.face
+AND profiles.profile_id = comparisons.profile
+AND images.image_id = faces.image
+AND profiles.name = 'Mekah';
+
+**********************************************************************************************************************************************************************************************************
+***************    Mimyth    *****************************************************************************************************************************************************************************
+**********************************************************************************************************************************************************************************************************
+
+Mimyth-CFS.csv
+
+select comparisons.label, comparisons.face_recog, images.path, images.nbr_faces, images.filesize, TO_CHAR(images.datetimeoriginal, 'DD-Mon-YYYY HH24:MI:SS'), images.gpslatitude, images.gpslongitude, images.model, faces.description
+FROM faces, images, profiles, comparisons
+WHERE comparisons.face_recog <= 0.65
+AND faces.face_id = comparisons.face
+AND profiles.profile_id = comparisons.profile
+AND images.image_id = faces.image
+AND profiles.name = 'Mimyth';
+
+Mimyth-DFS.csv
+
+select comparisons.label, comparisons.face_recog, images.path, images.nbr_faces, images.filesize, TO_CHAR(images.datetimeoriginal, 'DD-Mon-YYYY HH24:MI:SS'), images.gpslatitude, images.gpslongitude, images.model, faces.description
+FROM faces, images, profiles, comparisons
+WHERE comparisons.face_recog > 1.67
+AND faces.face_id = comparisons.face
+AND profiles.profile_id = comparisons.profile
+AND images.image_id = faces.image
+AND profiles.name = 'Mimyth';
+
+Mimyth-CZ.csv
+
+select comparisons.label, comparisons.face_recog, images.path, images.nbr_faces, images.filesize, TO_CHAR(images.datetimeoriginal, 'DD-Mon-YYYY HH24:MI:SS'), images.gpslatitude, images.gpslongitude, images.model, faces.description
+FROM faces, images, profiles, comparisons
+WHERE comparisons.face_recog > 0.65 AND comparisons.face_recog <= 1.67
+AND faces.face_id = comparisons.face
+AND profiles.profile_id = comparisons.profile
+AND images.image_id = faces.image
+AND profiles.name = 'Mimyth';
+
+**********************************************************************************************************************************************************************************************************
+***************    Sakis    ****************************************************************************************************************************************************************************
+**********************************************************************************************************************************************************************************************************
+
+Sakis-CFS.csv
+
+select comparisons.label, comparisons.face_recog, images.path, images.nbr_faces, images.filesize, TO_CHAR(images.datetimeoriginal, 'DD-Mon-YYYY HH24:MI:SS'), images.gpslatitude, images.gpslongitude, images.model, faces.description
+FROM faces, images, profiles, comparisons
+WHERE comparisons.face_recog <= 0.65
+AND faces.face_id = comparisons.face
+AND profiles.profile_id = comparisons.profile
+AND images.image_id = faces.image
+AND profiles.name = 'Sakis';
+
+Sakis-DFS.csv
+
+select comparisons.label, comparisons.face_recog, images.path, images.nbr_faces, images.filesize, TO_CHAR(images.datetimeoriginal, 'DD-Mon-YYYY HH24:MI:SS'), images.gpslatitude, images.gpslongitude, images.model, faces.description
+FROM faces, images, profiles, comparisons
+WHERE comparisons.face_recog > 1.67
+AND faces.face_id = comparisons.face
+AND profiles.profile_id = comparisons.profile
+AND images.image_id = faces.image
+AND profiles.name = 'Sakis';
+
+Sakis-CZ.csv
+
+select comparisons.label, comparisons.face_recog, images.path, images.nbr_faces, images.filesize, TO_CHAR(images.datetimeoriginal, 'DD-Mon-YYYY HH24:MI:SS'), images.gpslatitude, images.gpslongitude, images.model, faces.description
+FROM faces, images, profiles, comparisons
+WHERE comparisons.face_recog > 0.65 AND comparisons.face_recog <= 1.67
+AND faces.face_id = comparisons.face
+AND profiles.profile_id = comparisons.profile
+AND images.image_id = faces.image
+AND profiles.name = 'Sakis';
+
+**********************************************************************************************************************************************************************************************************
+***************    Sierra    ****************************************************************************************************************************************************************************
+**********************************************************************************************************************************************************************************************************
+
+Sierra-CFS.csv
+
+select comparisons.label, comparisons.face_recog, images.path, images.nbr_faces, images.filesize, TO_CHAR(images.datetimeoriginal, 'DD-Mon-YYYY HH24:MI:SS'), images.gpslatitude, images.gpslongitude, images.model, faces.description
+FROM faces, images, profiles, comparisons
+WHERE comparisons.face_recog <= 0.65
+AND faces.face_id = comparisons.face
+AND profiles.profile_id = comparisons.profile
+AND images.image_id = faces.image
+AND profiles.name = 'Sierra';
+
+Sierra-DFS.csv
+
+select comparisons.label, comparisons.face_recog, images.path, images.nbr_faces, images.filesize, TO_CHAR(images.datetimeoriginal, 'DD-Mon-YYYY HH24:MI:SS'), images.gpslatitude, images.gpslongitude, images.model, faces.description
+FROM faces, images, profiles, comparisons
+WHERE comparisons.face_recog > 1.67
+AND faces.face_id = comparisons.face
+AND profiles.profile_id = comparisons.profile
+AND images.image_id = faces.image
+AND profiles.name = 'Sierra';
+
+Sierra-CZ.csv
+
+select comparisons.label, comparisons.face_recog, images.path, images.nbr_faces, images.filesize, TO_CHAR(images.datetimeoriginal, 'DD-Mon-YYYY HH24:MI:SS'), images.gpslatitude, images.gpslongitude, images.model, faces.description
+FROM faces, images, profiles, comparisons
+WHERE comparisons.face_recog > 0.65 AND comparisons.face_recog <= 1.67
+AND faces.face_id = comparisons.face
+AND profiles.profile_id = comparisons.profile
+AND images.image_id = faces.image
+AND profiles.name = 'Sierra';
+
+**********************************************************************************************************************************************************************************************************
+***************    Sokhoi    *****************************************************************************************************************************************************************************
+**********************************************************************************************************************************************************************************************************
+
+Sokhoi-CFS.csv
+
+select comparisons.label, comparisons.face_recog, images.path, images.nbr_faces, images.filesize, TO_CHAR(images.datetimeoriginal, 'DD-Mon-YYYY HH24:MI:SS'), images.gpslatitude, images.gpslongitude, images.model, faces.description
+FROM faces, images, profiles, comparisons
+WHERE comparisons.face_recog <= 0.65
+AND faces.face_id = comparisons.face
+AND profiles.profile_id = comparisons.profile
+AND images.image_id = faces.image
+AND profiles.name = 'Sokhoi';
+
+Sokhoi-DFS.csv
+
+select comparisons.label, comparisons.face_recog, images.path, images.nbr_faces, images.filesize, TO_CHAR(images.datetimeoriginal, 'DD-Mon-YYYY HH24:MI:SS'), images.gpslatitude, images.gpslongitude, images.model, faces.description
+FROM faces, images, profiles, comparisons
+WHERE comparisons.face_recog > 1.67
+AND faces.face_id = comparisons.face
+AND profiles.profile_id = comparisons.profile
+AND images.image_id = faces.image
+AND profiles.name = 'Sokhoi';
+
+Sokhoi-CZ.csv
+
+select comparisons.label, comparisons.face_recog, images.path, images.nbr_faces, images.filesize, TO_CHAR(images.datetimeoriginal, 'DD-Mon-YYYY HH24:MI:SS'), images.gpslatitude, images.gpslongitude, images.model, faces.description
+FROM faces, images, profiles, comparisons
+WHERE comparisons.face_recog > 0.65 AND comparisons.face_recog <= 1.67
+AND faces.face_id = comparisons.face
+AND profiles.profile_id = comparisons.profile
+AND images.image_id = faces.image
+AND profiles.name = 'Sokhoi';
+
+**********************************************************************************************************************************************************************************************************
+***************    Yakouza    ****************************************************************************************************************************************************************************
+**********************************************************************************************************************************************************************************************************
+
+Yakouza-CFS.csv
+
+select comparisons.label, comparisons.face_recog, images.path, images.nbr_faces, images.filesize, TO_CHAR(images.datetimeoriginal, 'DD-Mon-YYYY HH24:MI:SS'), images.gpslatitude, images.gpslongitude, images.model, faces.description
+FROM faces, images, profiles, comparisons
+WHERE comparisons.face_recog <= 0.65
+AND faces.face_id = comparisons.face
+AND profiles.profile_id = comparisons.profile
+AND images.image_id = faces.image
+AND profiles.name = 'Yakouza';
+
+Yakouza-DFS.csv
+
+select comparisons.label, comparisons.face_recog, images.path, images.nbr_faces, images.filesize, TO_CHAR(images.datetimeoriginal, 'DD-Mon-YYYY HH24:MI:SS'), images.gpslatitude, images.gpslongitude, images.model, faces.description
+FROM faces, images, profiles, comparisons
+WHERE comparisons.face_recog > 1.67
+AND faces.face_id = comparisons.face
+AND profiles.profile_id = comparisons.profile
+AND images.image_id = faces.image
+AND profiles.name = 'Yakouza';
+
+Yakouza-CZ.csv
+
+select comparisons.label, comparisons.face_recog, images.path, images.nbr_faces, images.filesize, TO_CHAR(images.datetimeoriginal, 'DD-Mon-YYYY HH24:MI:SS'), images.gpslatitude, images.gpslongitude, images.model, faces.description
+FROM faces, images, profiles, comparisons
+WHERE comparisons.face_recog > 0.65 AND comparisons.face_recog <= 1.67
+AND faces.face_id = comparisons.face
+AND profiles.profile_id = comparisons.profile
+AND images.image_id = faces.image
+AND profiles.name = 'Yakouza';

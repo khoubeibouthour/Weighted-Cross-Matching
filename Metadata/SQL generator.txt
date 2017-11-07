@@ -1,0 +1,194 @@
+**********************************************************************************************************************************************************************************************************
+***************    Abrha    ******************************************************************************************************************************************************************************
+**********************************************************************************************************************************************************************************************************
+
+Abrha.csv
+
+select comparisons.label, comparisons.face_recog, images.path, images.nbr_faces, images.filesize, TO_CHAR(images.datetimeoriginal, 'DD-Mon-YYYY HH24:MI:SS'), images.gpslatitude, images.gpslongitude, images.model, faces.description
+FROM faces, images, profiles, comparisons
+AND faces.face_id = comparisons.face
+AND profiles.profile_id = comparisons.profile
+AND images.image_id = faces.image
+AND profiles.name = 'Abrha';
+
+**********************************************************************************************************************************************************************************************************
+***************    Astraat    ****************************************************************************************************************************************************************************
+**********************************************************************************************************************************************************************************************************
+
+Astraat.csv
+
+select comparisons.label, comparisons.face_recog, images.path, images.nbr_faces, images.filesize, TO_CHAR(images.datetimeoriginal, 'DD-Mon-YYYY HH24:MI:SS'), images.gpslatitude, images.gpslongitude, images.model, faces.description
+FROM faces, images, profiles, comparisons
+AND faces.face_id = comparisons.face
+AND profiles.profile_id = comparisons.profile
+AND images.image_id = faces.image
+AND profiles.name = 'Astraat';
+
+**********************************************************************************************************************************************************************************************************
+***************    Bonji    ****************************************************************************************************************************************************************************
+**********************************************************************************************************************************************************************************************************
+
+Bonji.csv
+
+select comparisons.label, comparisons.face_recog, images.path, images.nbr_faces, images.filesize, TO_CHAR(images.datetimeoriginal, 'DD-Mon-YYYY HH24:MI:SS'), images.gpslatitude, images.gpslongitude, images.model, faces.description
+FROM faces, images, profiles, comparisons
+AND faces.face_id = comparisons.face
+AND profiles.profile_id = comparisons.profile
+AND images.image_id = faces.image
+AND profiles.name = 'Bonji';
+
+**********************************************************************************************************************************************************************************************************
+***************    Heeda    ****************************************************************************************************************************************************************************
+**********************************************************************************************************************************************************************************************************
+
+Heeda.csv
+
+select comparisons.label, comparisons.face_recog, images.path, images.nbr_faces, images.filesize, TO_CHAR(images.datetimeoriginal, 'DD-Mon-YYYY HH24:MI:SS'), images.gpslatitude, images.gpslongitude, images.model, faces.description
+FROM faces, images, profiles, comparisons
+AND faces.face_id = comparisons.face
+AND profiles.profile_id = comparisons.profile
+AND images.image_id = faces.image
+AND profiles.name = 'Heeda';
+
+**********************************************************************************************************************************************************************************************************
+***************    Hickam    ****************************************************************************************************************************************************************************
+**********************************************************************************************************************************************************************************************************
+
+Hickam-.csv
+
+select comparisons.label, comparisons.face_recog, images.path, images.nbr_faces, images.filesize, TO_CHAR(images.datetimeoriginal, 'DD-Mon-YYYY HH24:MI:SS'), images.gpslatitude, images.gpslongitude, images.model, faces.description
+FROM faces, images, profiles, comparisons
+AND faces.face_id = comparisons.face
+AND profiles.profile_id = comparisons.profile
+AND images.image_id = faces.image
+AND profiles.name = 'Hickam';
+
+**********************************************************************************************************************************************************************************************************
+***************    Hmouda    ****************************************************************************************************************************************************************************
+**********************************************************************************************************************************************************************************************************
+
+Hmouda.csv
+
+select comparisons.label, comparisons.face_recog, images.path, images.nbr_faces, images.filesize, TO_CHAR(images.datetimeoriginal, 'DD-Mon-YYYY HH24:MI:SS'), images.gpslatitude, images.gpslongitude, images.model, faces.description
+FROM faces, images, profiles, comparisons
+AND faces.face_id = comparisons.face
+AND profiles.profile_id = comparisons.profile
+AND images.image_id = faces.image
+AND profiles.name = 'Hmouda';
+
+**********************************************************************************************************************************************************************************************************
+***************    Holu    ****************************************************************************************************************************************************************************
+**********************************************************************************************************************************************************************************************************
+
+Holu.csv
+
+select comparisons.label, comparisons.face_recog, images.path, images.nbr_faces, images.filesize, TO_CHAR(images.datetimeoriginal, 'DD-Mon-YYYY HH24:MI:SS'), images.gpslatitude, images.gpslongitude, images.model, faces.description
+FROM faces, images, profiles, comparisons
+AND faces.face_id = comparisons.face
+AND profiles.profile_id = comparisons.profile
+AND images.image_id = faces.image
+AND profiles.name = 'Holu';
+
+**********************************************************************************************************************************************************************************************************
+***************    Khufu    ****************************************************************************************************************************************************************************
+**********************************************************************************************************************************************************************************************************
+
+Khufu.csv
+
+select comparisons.label, comparisons.face_recog, images.path, images.nbr_faces, images.filesize, TO_CHAR(images.datetimeoriginal, 'DD-Mon-YYYY HH24:MI:SS'), images.gpslatitude, images.gpslongitude, images.model, faces.description
+FROM faces, images, profiles, comparisons
+AND faces.face_id = comparisons.face
+AND profiles.profile_id = comparisons.profile
+AND images.image_id = faces.image
+AND profiles.name = 'Khufu';
+
+**********************************************************************************************************************************************************************************************************
+***************    Laghbesh    ****************************************************************************************************************************************************************************
+**********************************************************************************************************************************************************************************************************
+
+Laghbesh.csv
+
+select comparisons.label, comparisons.face_recog, images.path, images.nbr_faces, images.filesize, TO_CHAR(images.datetimeoriginal, 'DD-Mon-YYYY HH24:MI:SS'), images.gpslatitude, images.gpslongitude, images.model, faces.description
+FROM faces, images, profiles, comparisons
+AND faces.face_id = comparisons.face
+AND profiles.profile_id = comparisons.profile
+AND images.image_id = faces.image
+AND profiles.name = 'Laghbesh';
+
+**********************************************************************************************************************************************************************************************************
+***************    Mekah    ****************************************************************************************************************************************************************************
+**********************************************************************************************************************************************************************************************************
+
+Mekah.csv
+
+select comparisons.label, comparisons.face_recog, images.path, images.nbr_faces, images.filesize, TO_CHAR(images.datetimeoriginal, 'DD-Mon-YYYY HH24:MI:SS'), images.gpslatitude, images.gpslongitude, images.model, faces.description
+FROM faces, images, profiles, comparisons
+AND faces.face_id = comparisons.face
+AND profiles.profile_id = comparisons.profile
+AND images.image_id = faces.image
+AND profiles.name = 'Mekah';
+
+**********************************************************************************************************************************************************************************************************
+***************    Mimyth    *****************************************************************************************************************************************************************************
+**********************************************************************************************************************************************************************************************************
+
+Mimyth.csv
+
+select comparisons.label, comparisons.face_recog, images.path, images.nbr_faces, images.filesize, TO_CHAR(images.datetimeoriginal, 'DD-Mon-YYYY HH24:MI:SS'), images.gpslatitude, images.gpslongitude, images.model, faces.description
+FROM faces, images, profiles, comparisons
+AND faces.face_id = comparisons.face
+AND profiles.profile_id = comparisons.profile
+AND images.image_id = faces.image
+AND profiles.name = 'Mimyth';
+
+**********************************************************************************************************************************************************************************************************
+***************    Sakis    ****************************************************************************************************************************************************************************
+**********************************************************************************************************************************************************************************************************
+
+Sakis.csv
+
+select comparisons.label, comparisons.face_recog, images.path, images.nbr_faces, images.filesize, TO_CHAR(images.datetimeoriginal, 'DD-Mon-YYYY HH24:MI:SS'), images.gpslatitude, images.gpslongitude, images.model, faces.description
+FROM faces, images, profiles, comparisons
+AND faces.face_id = comparisons.face
+AND profiles.profile_id = comparisons.profile
+AND images.image_id = faces.image
+AND profiles.name = 'Sakis';
+
+**********************************************************************************************************************************************************************************************************
+***************    Sierra    ****************************************************************************************************************************************************************************
+**********************************************************************************************************************************************************************************************************
+
+Sierra.csv
+
+select comparisons.label, comparisons.face_recog, images.path, images.nbr_faces, images.filesize, TO_CHAR(images.datetimeoriginal, 'DD-Mon-YYYY HH24:MI:SS'), images.gpslatitude, images.gpslongitude, images.model, faces.description
+FROM faces, images, profiles, comparisons
+AND faces.face_id = comparisons.face
+AND profiles.profile_id = comparisons.profile
+AND images.image_id = faces.image
+AND profiles.name = 'Sierra';
+
+**********************************************************************************************************************************************************************************************************
+***************    Sokhoi    *****************************************************************************************************************************************************************************
+**********************************************************************************************************************************************************************************************************
+
+Sokhoi.csv
+
+select comparisons.label, comparisons.face_recog, images.path, images.nbr_faces, images.filesize, TO_CHAR(images.datetimeoriginal, 'DD-Mon-YYYY HH24:MI:SS'), images.gpslatitude, images.gpslongitude, images.model, faces.description
+FROM faces, images, profiles, comparisons
+AND faces.face_id = comparisons.face
+AND profiles.profile_id = comparisons.profile
+AND images.image_id = faces.image
+AND profiles.name = 'Sokhoi';
+
+**********************************************************************************************************************************************************************************************************
+***************    Yakouza    ****************************************************************************************************************************************************************************
+**********************************************************************************************************************************************************************************************************
+
+Yakouza.csv
+
+select comparisons.label, comparisons.face_recog, images.path, images.nbr_faces, images.filesize, TO_CHAR(images.datetimeoriginal, 'DD-Mon-YYYY HH24:MI:SS'), images.gpslatitude, images.gpslongitude, images.model, faces.description
+FROM faces, images, profiles, comparisons
+AND faces.face_id = comparisons.face
+AND profiles.profile_id = comparisons.profile
+AND images.image_id = faces.image
+AND profiles.name = 'Yakouza';

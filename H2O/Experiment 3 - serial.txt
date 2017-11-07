@@ -1,0 +1,235 @@
+screen
+grace
+R
+rm(list = ls())
+
+#====================================================================================================================================
+
+library("curl", lib.loc="~/work/RLibs")
+library("httr", lib.loc="~/work/RLibs")
+library("devtools", lib.loc="~/work/RLibs")
+library("RCurl", lib.loc="~/work/RLibs")
+library("h2o", lib.loc="~/work/RLibs")
+
+#====================================================================================================================================
+
+h2o.init(nthreads = -1, min_mem_size="500G")
+h2o.removeAll()
+
+#====================================================================================================================================
+
+dataset = h2o.importFile(path="/home/kbouthou/work/dataset/s10")
+
+#====================================================================================================================================
+
+dataset$same_path = as.factor(dataset$same_path)
+dataset$same_imagewidth = as.factor(dataset$same_imagewidth)
+dataset$same_orientation = as.factor(dataset$same_orientation)
+dataset$same_model = as.factor(dataset$same_model)
+dataset$response = as.factor(dataset$response)
+
+splits = h2o.splitFrame(dataset, c(0.6,0.2), seed=1234)
+train  = h2o.assign(splits[[1]], "train.hex")
+valid  = h2o.assign(splits[[2]], "valid.hex")
+test   = h2o.assign(splits[[3]], "test.hex")
+response = "response"
+
+train.1.1 = train[,-c(4,5,6,7,8,9,10,11)]
+train.1.2 = train
+train.2.1 = train[(train$fr_comp <= 0.65 && train$fr_ref <= 0.65) || (train$fr_comp > 1.67 && train$fr_ref <= 0.65) || (train$fr_comp <= 0.65 && train$fr_ref > 1.67),-c(4,5,6,7,8,9,10,11)]
+train.2.2 = train[(train$fr_comp <= 0.65 && train$fr_ref <= 0.65) || (train$fr_comp > 1.67 && train$fr_ref <= 0.65) || (train$fr_comp <= 0.65 && train$fr_ref > 1.67),]
+
+valid.1.1 = valid[,-c(4,5,6,7,8,9,10,11)]
+valid.1.2 = valid
+valid.2.1 = valid[(valid$fr_comp <= 0.65 && valid$fr_ref <= 0.65) || (valid$fr_comp > 1.67 && valid$fr_ref <= 0.65) || (valid$fr_comp <= 0.65 && valid$fr_ref > 1.67),-c(4,5,6,7,8,9,10,11)]
+valid.2.2 = valid[(valid$fr_comp <= 0.65 && valid$fr_ref <= 0.65) || (valid$fr_comp > 1.67 && valid$fr_ref <= 0.65) || (valid$fr_comp <= 0.65 && valid$fr_ref > 1.67),]
+
+test.1.1 = test[,-c(4,5,6,7,8,9,10,11)]
+test.1.2 = test
+test.2.1 = test[(test$fr_comp <= 0.65 && test$fr_ref <= 0.65) || (test$fr_comp > 1.67 && test$fr_ref <= 0.65) || (test$fr_comp <= 0.65 && test$fr_ref > 1.67),-c(4,5,6,7,8,9,10,11)]
+test.2.2 = test[(test$fr_comp <= 0.65 && test$fr_ref <= 0.65) || (test$fr_comp > 1.67 && test$fr_ref <= 0.65) || (test$fr_comp <= 0.65 && test$fr_ref > 1.67),]
+
+predictors.1 <- setdiff(names(train.1.1), response)
+predictors.2 <- setdiff(names(train.1.2), response)
+
+#================================================ Distributed Random Forest ========================================================================
+
+trainedDRF.1.1 = h2o.randomForest(model_id="drf_model_1_1", training_frame=train.1.1, validation_frame=valid.1.1, nfolds=10, x=predictors.1, y=response, ntrees=5, max_depth=3, binomial_double_trees=TRUE)
+trainedDRF.1.1.path = h2o.saveModel(object=trainedDRF.1.1, path="/home/kbouthou/work/dataset/models", force=TRUE)
+
+trainedDRF.1.2 = h2o.randomForest(model_id="drf_model_1_2", training_frame=train.1.2, validation_frame=valid.1.2, nfolds=10, x=predictors.1, y=response, ntrees=5, max_depth=14, binomial_double_trees=TRUE)
+trainedDRF.1.2.path = h2o.saveModel(object=trainedDRF.1.2, path="/home/kbouthou/work/dataset/models", force=TRUE)
+
+trainedDRF.2.1 = h2o.randomForest(model_id="drf_model_2_1", training_frame=train.2.1, validation_frame=valid.2.1, nfolds=10, x=predictors.1, y=response, ntrees=5, max_depth=3, binomial_double_trees=TRUE)
+trainedDRF.2.1.path = h2o.saveModel(object=trainedDRF.2.1, path="/home/kbouthou/work/dataset/models", force=TRUE)
+
+trainedDRF.2.2 = h2o.randomForest(model_id="drf_model_2_2", training_frame=train.2.2, validation_frame=valid.2.2, nfolds=10, x=predictors.1, y=response, ntrees=5, max_depth=14, binomial_double_trees=TRUE)
+trainedDRF.2.2.path = h2o.saveModel(object=trainedDRF.2.2, path="/home/kbouthou/work/dataset/models", force=TRUE)
+
+#================================================ DRF Accuracy =====================================================================================
+
+pred = h2o.predict(trainedDRF.1.1, test.1.1)
+meanDRF.1.1 = mean(pred$predict == test.1.1$response)
+
+pred = h2o.predict(trainedDRF.1.2, test.1.2)
+meanDRF.1.2 = mean(pred$predict == test.1.2$response)
+
+pred = h2o.predict(trainedDRF.2.1, test.2.1)
+meanDRF.2.1 = mean(pred$predict == test.2.1$response)
+
+pred = h2o.predict(trainedDRF.2.2, test.2.2)
+meanDRF.2.2 = mean(pred$predict == test.2.2$response)
+
+meanDRF.1.1
+meanDRF.1.2
+meanDRF.2.1
+meanDRF.2.2
+
+#================================================= DRF Confusion Matrix ============================================================================
+
+h2o.confusionMatrix(trainedDRF.1.1, newdata=test.1.1)
+h2o.confusionMatrix(trainedDRF.1.2, newdata=test.1.2)
+h2o.confusionMatrix(trainedDRF.2.1, newdata=test.2.1)
+h2o.confusionMatrix(trainedDRF.2.2, newdata=test.2.2)
+
+#================================================ Deep Learning ====================================================================================
+
+trainedDL.1.1 = h2o.deeplearning(model_id="dl_model_1_1", training_frame=train.1.1,	validation_frame=valid.1.1,	x=predictors.1,	y=response, nfolds=10, epochs=1, variable_importances=T)
+trainedDL.1.1.path = h2o.saveModel(object=trainedDL.1.1, path="/home/kbouthou/work/dataset/models", force=TRUE)
+
+trainedDL.1.2 = h2o.deeplearning(model_id="dl_model_1_2", training_frame=train.1.2,	validation_frame=valid.1.2,	x=predictors.1,	y=response, nfolds=10, epochs=1, variable_importances=T)
+trainedDL.1.2.path = h2o.saveModel(object=trainedDL.1.2, path="/home/kbouthou/work/dataset/models", force=TRUE)
+
+trainedDL.2.1 = h2o.deeplearning(model_id="dl_model_2_1", training_frame=train.2.1,	validation_frame=valid.2.1,	x=predictors.1,	y=response, nfolds=10, epochs=1, variable_importances=T)
+trainedDL.2.1.path = h2o.saveModel(object=trainedDL.2.1, path="/home/kbouthou/work/dataset/models", force=TRUE)
+
+trainedDL.2.2 = h2o.deeplearning(model_id="dl_model_2_2", training_frame=train.2.2,	validation_frame=valid.2.2,	x=predictors.1,	y=response, nfolds=10, epochs=1, variable_importances=T)
+trainedDL.2.2.path = h2o.saveModel(object=trainedDL.2.2, path="/home/kbouthou/work/dataset/models", force=TRUE)
+
+#================================================ DL Accuracy ======================================================================================
+
+pred = h2o.predict(trainedDL.1.1, test.1.1)
+meanDL.1.1 = mean(pred$predict == test.1.1$response)
+
+pred = h2o.predict(trainedDL.1.2, test.1.2)
+meanDL.1.2 = mean(pred$predict == test.1.2$response)
+
+pred = h2o.predict(trainedDL.2.1, test.2.1)
+meanDL.2.1 = mean(pred$predict == test.2.1$response)
+
+pred = h2o.predict(trainedDL.2.2, test.2.2)
+meanDL.2.2 = mean(pred$predict == test.2.2$response)
+
+meanDL.1.1
+meanDL.1.2
+meanDL.2.1
+meanDL.2.2
+
+#================================================= DL Confusion Matrix =============================================================================
+
+h2o.confusionMatrix(trainedDL.1.1, newdata=test.1.1)
+h2o.confusionMatrix(trainedDL.1.2, newdata=test.1.2)
+h2o.confusionMatrix(trainedDL.2.1, newdata=test.2.1)
+h2o.confusionMatrix(trainedDL.2.2, newdata=test.2.2)
+
+#================================================ Generalized Linear Model =========================================================================
+
+trainedGLM.1.1 = h2o.glm(model_id="glm_model_1_1", training_frame=train.1.1, validation_frame=valid.1.1, x=predictors.1, y=response, family='binomial',	lambda=0)
+trainedGLM.1.1.path = h2o.saveModel(object=trainedGLM.1.1, path="/home/kbouthou/work/dataset/models", force=TRUE)
+
+trainedGLM.1.2 = h2o.glm(model_id="glm_model_1_2", training_frame=train.1.2, validation_frame=valid.1.2, x=predictors.1, y=response, family='binomial',	lambda=0)
+trainedGLM.1.2.path = h2o.saveModel(object=trainedGLM.1.2, path="/home/kbouthou/work/dataset/models", force=TRUE)
+
+trainedGLM.2.1 = h2o.glm(model_id="glm_model_2_1", training_frame=train.2.1, validation_frame=valid.2.1, x=predictors.1, y=response, family='binomial',	lambda=0)
+trainedGLM.2.1.path = h2o.saveModel(object=trainedGLM.2.1, path="/home/kbouthou/work/dataset/models", force=TRUE)
+
+trainedGLM.2.2 = h2o.glm(model_id="glm_model_2_2", training_frame=train.2.2, validation_frame=valid.2.2, x=predictors.1, y=response, family='binomial',	lambda=0)
+trainedGLM.2.2.path = h2o.saveModel(object=trainedGLM.2.2, path="/home/kbouthou/work/dataset/models", force=TRUE)
+
+#================================================ GLM Accuracy =====================================================================================
+
+pred = h2o.predict(trainedGLM.1.1, test.1.1)
+meanGLM.1.1 = mean(pred$predict == test.1.1$response)
+
+pred = h2o.predict(trainedGLM.1.2, test.1.2)
+meanGLM.1.2 = mean(pred$predict == test.1.2$response)
+
+pred = h2o.predict(trainedGLM.2.1, test.2.1)
+meanGLM.2.1 = mean(pred$predict == test.2.1$response)
+
+pred = h2o.predict(trainedGLM.2.2, test.2.2)
+meanGLM.2.2 = mean(pred$predict == test.2.2$response)
+
+meanGLM.1.1
+meanGLM.1.2
+meanGLM.2.1
+meanGLM.2.2
+
+#================================================= GLM Confusion Matrix ============================================================================
+
+h2o.confusionMatrix(trainedGLM.1.1, newdata=test.1.1)
+h2o.confusionMatrix(trainedGLM.1.2, newdata=test.1.2)
+h2o.confusionMatrix(trainedGLM.2.1, newdata=test.2.1)
+h2o.confusionMatrix(trainedGLM.2.2, newdata=test.2.2)
+
+#================================================ Gradient Boosted Models ==========================================================================
+
+trainedGBM.1.1 = h2o.gbm(model_id = "gbm_model_1_1", training_frame = train.1.1, validation_frame = valid.1.1, x=predictors.1, y=response, nfolds=10)
+trainedGBM.1.1.path = h2o.saveModel(object=trainedGBM.1.1, path="/home/kbouthou/work/dataset/models", force=TRUE)
+
+trainedGBM.1.2 = h2o.gbm(model_id = "gbm_model_1_2", training_frame = train.1.2, validation_frame = valid.1.2, x=predictors.1, y=response, nfolds=10)
+trainedGBM.1.2.path = h2o.saveModel(object=trainedGBM.1.2, path="/home/kbouthou/work/dataset/models", force=TRUE)
+
+trainedGBM.2.1 = h2o.gbm(model_id = "gbm_model_2_1", training_frame = train.2.1, validation_frame = valid.2.1, x=predictors.1, y=response, nfolds=10)
+trainedGBM.2.1.path = h2o.saveModel(object=trainedGBM.2.1, path="/home/kbouthou/work/dataset/models", force=TRUE)
+
+trainedGBM.2.2 = h2o.gbm(model_id = "gbm_model_2_2", training_frame = train.2.2, validation_frame = valid.2.2, x=predictors.1, y=response, nfolds=10)
+trainedGBM.2.2.path = h2o.saveModel(object=trainedGBM.2.2, path="/home/kbouthou/work/dataset/models", force=TRUE)
+
+#================================================ GBM Accuracy ======================================================================================
+
+pred = h2o.predict(trainedGBM.1.1, test.1.1)
+meanGBM.1.1 = mean(pred$predict == test.1.1$response)
+
+pred = h2o.predict(trainedGBM.1.2, test.1.2)
+meanGBM.1.2 = mean(pred$predict == test.1.2$response)
+
+pred = h2o.predict(trainedGBM.2.1, test.2.1)
+meanGBM.2.1 = mean(pred$predict == test.2.1$response)
+
+pred = h2o.predict(trainedGBM.2.2, test.2.2)
+meanGBM.2.2 = mean(pred$predict == test.2.2$response)
+
+meanGBM.1.1
+meanGBM.1.2
+meanGBM.2.1
+meanGBM.2.2
+
+#================================================= GBM Confusion Matrix ============================================================================
+
+h2o.confusionMatrix(trainedGBM.1.1, newdata=test.1.1)
+h2o.confusionMatrix(trainedGBM.1.2, newdata=test.1.2)
+h2o.confusionMatrix(trainedGBM.2.1, newdata=test.2.1)
+h2o.confusionMatrix(trainedGBM.2.2, newdata=test.2.2)
+
+#================================================= Summary =========================================================================================
+
+summary(trainedDRF.1.1)
+summary(trainedDRF.1.2)
+summary(trainedDRF.2.1)
+summary(trainedDRF.2.2)
+
+summary(trainedDL.1.1)
+summary(trainedDL.1.2)
+summary(trainedDL.2.1)
+summary(trainedDL.2.2)
+
+summary(trainedGLM.1.1)
+summary(trainedGLM.1.2)
+summary(trainedGLM.2.1)
+summary(trainedGLM.2.2)
+
+summary(trainedGBM.1.1)
+summary(trainedGBM.1.2)
+summary(trainedGBM.2.1)
+summary(trainedGBM.2.2)

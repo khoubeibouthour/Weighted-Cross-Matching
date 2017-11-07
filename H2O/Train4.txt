@@ -1,0 +1,78 @@
+grace
+R
+
+library("curl", lib.loc="~/work/RLibs")
+library("httr", lib.loc="~/work/RLibs")
+library("devtools", lib.loc="~/work/RLibs")
+library("RCurl", lib.loc="~/work/RLibs")
+library("h2o", lib.loc="~/work/RLibs")
+
+h2o.init(nthreads = -1, min_mem_size="500G")
+
+trainData3 = h2o.importFile(path="/home/kbouthou/work/queries/sampledData/10pc/train")
+testData3 = h2o.importFile(path="/home/kbouthou/work/queries/sampledData/10pc/test")
+
+trainData3$neighbor = as.factor(trainData3$neighbor)
+trainData3$same_path = as.factor(trainData3$same_path)
+trainData3$same_imageheight = as.factor(trainData3$same_imageheight)
+trainData3$same_imagewidth = as.factor(trainData3$same_imagewidth)
+trainData3$same_exifimageheight = as.factor(trainData3$same_exifimageheight)
+trainData3$same_exifimagewidth = as.factor(trainData3$same_exifimagewidth)
+trainData3$same_gpslongituderef = as.factor(trainData3$same_gpslongituderef)
+trainData3$same_gpslatituderef = as.factor(trainData3$same_gpslatituderef)
+trainData3$same_gpsaltituderef = as.factor(trainData3$same_gpsaltituderef)
+trainData3$same_gpsimgdirectionref = as.factor(trainData3$same_gpsimgdirectionref)
+trainData3$same_orientation = as.factor(trainData3$same_orientation)
+trainData3$same_flash = as.factor(trainData3$same_flash)
+trainData3$same_make = as.factor(trainData3$same_make)
+trainData3$same_model = as.factor(trainData3$same_model)
+
+testData3$neighbor = as.factor(testData3$neighbor)
+testData3$same_path = as.factor(testData3$same_path)
+testData3$same_imageheight = as.factor(testData3$same_imageheight)
+testData3$same_imagewidth = as.factor(testData3$same_imagewidth)
+testData3$same_exifimageheight = as.factor(testData3$same_exifimageheight)
+testData3$same_exifimagewidth = as.factor(testData3$same_exifimagewidth)
+testData3$same_gpslongituderef = as.factor(testData3$same_gpslongituderef)
+testData3$same_gpslatituderef = as.factor(testData3$same_gpslatituderef)
+testData3$same_gpsaltituderef = as.factor(testData3$same_gpsaltituderef)
+testData3$same_gpsimgdirectionref = as.factor(testData3$same_gpsimgdirectionref)
+testData3$same_orientation = as.factor(testData3$same_orientation)
+testData3$same_flash = as.factor(testData3$same_flash)
+testData3$same_make = as.factor(testData3$same_make)
+testData3$same_model = as.factor(testData3$same_model)
+
+col.names = colnames(trainData3)[-25]
+
+trainedDRF = h2o.randomForest(
+    x=col.names,
+    model_id="nooptions_drf",
+    training_frame=trainData3,
+    validation_frame=testData3,
+    nfolds=10,
+    y="neighbor",
+    ntrees=20
+)
+
+trainedDRF.path = h2o.saveModel(object=trainedDRF, path="/home/kbouthou/work/queries/sampledData/10pc", force=TRUE)
+
+dim(trainData3)
+# h2o.str(trainData3, cols=TRUE)
+# summary(trainData3$neighbor)
+tab = h2o.table(trainData3[,"neighbor"])
+h2o.print(tab,2)
+
+h2o.confusionMatrix(trainedDRF)
+h2o.auc(trainedDRF, valid=TRUE)
+h2o.confusionMatrix(trainedDRF, newdata=testData3)
+h2o.logloss(trainedDRF, valid=TRUE)
+
+h2o.download_mojo(trainedDRF, "/home/kbouthou/work/queries", FALSE)
+
+17:26
+
+java -cp h2o.jar hex.genmodel.tools.PrintMojo --tree 0 -i DRF_model_R_1506712971960_1.zip -o DRF_model_R_1506712971960_1.gv
+dot -Tpng DRF_model_R_1506712971960_1.gv -o DRF_model_R_1506712971960_1.png
+open DRF_model_R_1506712971960_1.png
+
+https://dzone.com/articles/visualizing-h2o-gbm-and-random-forest-mojo-models

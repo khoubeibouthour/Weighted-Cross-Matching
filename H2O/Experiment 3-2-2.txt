@@ -1,0 +1,185 @@
+screen
+grace
+R
+rm(list = ls())
+
+#====================================================================================================================================
+
+library("curl", lib.loc="~/work/RLibs")
+library("httr", lib.loc="~/work/RLibs")
+library("devtools", lib.loc="~/work/RLibs")
+library("RCurl", lib.loc="~/work/RLibs")
+library("h2o", lib.loc="~/work/RLibs")
+
+#====================================================================================================================================
+
+h2o.init(nthreads = -1, min_mem_size="500G")
+h2o.removeAll()
+
+#====================================================================================================================================
+
+dataset.2.2 = h2o.importFile(path="/home/kbouthou/work/dataset/s10")			# FV + Metadata with strict thresholds
+dataset.2.2 = dataset.2.2[(dataset.2.2$fr_comp <= 0.65 && dataset.2.2$fr_ref <= 0.65) || (dataset.2.2$fr_comp > 1.67 && dataset.2.2$fr_ref <= 0.65) || (dataset.2.2$fr_comp <= 0.65 && dataset.2.2$fr_ref > 1.67),]
+dataset.2.2$same_path = as.factor(dataset.2.2$same_path)
+dataset.2.2$same_imagewidth = as.factor(dataset.2.2$same_imagewidth)
+dataset.2.2$same_orientation = as.factor(dataset.2.2$same_orientation)
+dataset.2.2$same_model = as.factor(dataset.2.2$same_model)
+dataset.2.2$response = as.factor(dataset.2.2$response)
+
+#====================================================================================================================================
+
+splits.2.2 = h2o.splitFrame(dataset.2.2, c(0.6,0.2), seed=1234)
+train.2.2  = h2o.assign(splits.2.2[[1]], "train.2.2.hex")
+valid.2.2  = h2o.assign(splits.2.2[[2]], "valid.2.2.hex")
+test.2.2   = h2o.assign(splits.2.2[[3]], "test.2.2.hex") 
+response = "response"
+predictors.2 <- setdiff(names(dataset.2.2), response)
+
+#====================================================================================================================================
+
+trainedDL.2.2 = h2o.deeplearning(
+	model_id="dl_model_2_2",
+	training_frame=train.2.2,
+	validation_frame=valid.2.2,
+	x=predictors.2,
+	y=response,
+	nfolds=10,
+	#activation="Rectifier",  ## default
+	#hidden=c(200,200),       ## default: 2 hidden layers with 200 neurons each
+	epochs=1,
+	variable_importances=T    ## not enabled by default
+)
+trainedDL.2.2.path = h2o.saveModel(object=trainedDL.2.2, path="/home/kbouthou/work/dataset/models", force=TRUE)
+
+#====================================================================================================================================
+
+trainedGBM.2.2 = h2o.gbm(
+	model_id = "gbm_model_2_2",
+	training_frame = train.2.2,
+	validation_frame = valid.2.2,
+	x=predictors.2,
+	y=response,
+	seed = 2000000,
+	nfolds=10
+)
+trainedGBM.2.2.path = h2o.saveModel(object=trainedGBM.2.2, path="/home/kbouthou/work/dataset/models", force=TRUE)
+
+#====================================================================================================================================
+
+trainedDRF.2.2 = h2o.randomForest(
+    model_id="drf_model_2_2",
+    training_frame=train.2.2,
+    validation_frame=valid.2.2,
+    nfolds=10,
+	x=predictors.2,
+    y=response,
+    keep_cross_validation_predictions=FALSE,
+    keep_cross_validation_fold_assignment=FALSE,
+    score_each_iteration=FALSE,
+    score_tree_interval=0,
+    fold_assignment="AUTO",
+    fold_column=NULL,
+    ignore_const_cols=TRUE,
+    offset_column=NULL,
+    weights_column=NULL,
+    balance_classes=FALSE,
+    class_sampling_factors=NULL,
+    max_after_balance_size=1,
+    max_hit_ratio_k=0,
+    ntrees=5,
+    max_depth=14,
+    min_rows=1,
+    nbins=20,
+    nbins_top_level=1024,
+    nbins_cats=1024,
+    stopping_rounds=0,
+    stopping_metric="AUTO",
+    stopping_tolerance=0.001,
+    max_runtime_secs=0,
+    seed=-1,
+    build_tree_one_node=FALSE,
+    mtries=-1,
+    sample_rate=0.6320000291,
+    sample_rate_per_class=NULL,
+    binomial_double_trees=TRUE,
+    checkpoint=NULL,
+    col_sample_rate_change_per_level=1,
+    col_sample_rate_per_tree=1,
+    min_split_improvement=1e-05,
+    histogram_type="AUTO",
+    categorical_encoding="AUTO",
+    calibrate_model=FALSE
+)
+trainedDRF.2.2.path = h2o.saveModel(object=trainedDRF.2.2, path="/home/kbouthou/work/dataset/models", force=TRUE)
+
+#====================================================================================================================================
+
+trainedGLM.2.2 = h2o.glm(
+	model_id="glm_model_2_2",
+	training_frame=train.2.2,
+	validation_frame=valid.2.2,
+	x=predictors.2,
+	y=response,
+	family='binomial',
+	lambda=0
+)
+trainedGLM.2.2.path = h2o.saveModel(object=trainedGLM.2.2, path="/home/kbouthou/work/dataset/models", force=TRUE)
+
+#====================================================================================================================================
+# Accuracy
+
+pred = h2o.predict(trainedDL.2.2, test.2.2)
+meanDL.2.2 = pred$predict == test.2.2$response
+
+pred = h2o.predict(trainedGBM.2.2, test.2.2)
+meanGBM.2.2 = pred$predict == test.2.2$response
+
+pred = h2o.predict(trainedDRF.2.2, test.2.2)
+meanDRF.2.2 = pred$predict == test.2.2$response
+
+pred = h2o.predict(trainedGLM.2.2, test.2.2)
+meanGLM.2.2 = pred$predict == test.2.2$response
+
+#====================================================================================================================================
+# Confusion matrix
+
+h2o.confusionMatrix(trainedDL.2.2)
+h2o.auc(trainedDL.2.2, valid=TRUE)
+h2o.confusionMatrix(trainedDL.2.2, newdata=test.2.2)
+
+h2o.confusionMatrix(trainedGBM.2.2)
+h2o.auc(trainedGBM.2.2, valid=TRUE)
+h2o.confusionMatrix(trainedGBM.2.2, newdata=test.2.2)
+
+h2o.confusionMatrix(trainedDRF.2.2)
+h2o.auc(trainedDRF.2.2, valid=TRUE)
+h2o.confusionMatrix(trainedDRF.2.2, newdata=test.2.2)
+
+h2o.confusionMatrix(trainedGLM.2.2)
+h2o.auc(trainedGLM.2.2, valid=TRUE)
+h2o.confusionMatrix(trainedGLM.2.2, newdata=test.2.2)
+
+====================================================================================================================================
+
+h2o.performance(trainedDL, train=T)
+h2o.performance(trainedDL, valid=T)
+h2o.performance(trainedDL, newdata=train)
+h2o.performance(trainedDL, newdata=valid)
+h2o.performance(trainedDL, newdata=test)
+h2o.hit_ratio_table(trainedDL,valid = T)[1,2]
+
+====================================================================================================================================
+
+fpr = m_binomial@model$training_metrics@metrics$thresholds_and_metric_scores$fpr
+tpr = m_binomial@model$training_metrics@metrics$thresholds_and_metric_scores$tpr
+fpr_val = m_binomial@model$validation_metrics@metrics$thresholds_and_metric_scores$fpr
+tpr_val = m_binomial@model$validation_metrics@metrics$thresholds_and_metric_scores$tpr
+plot(fpr,tpr, type='l')
+title('AUC')
+lines(fpr_val,tpr_val,type='l',col='red')
+legend("bottomright",c("Train", "Validation"),col=c("black","red"),lty=c(1,1),lwd=c(3,3))
+
+====================================================================================================================================
+
+h2o.auc(m_binomial,valid=FALSE) # on train                   
+h2o.auc(m_binomial,valid=TRUE)  # on test

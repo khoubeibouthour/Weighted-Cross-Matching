@@ -1,0 +1,126 @@
+#====================================== DRF ============================================================
+
+> meanDRF.1.1					> meanDRF.1.2				> meanDRF.2.1				> meanDRF.2.2
+[1] 0.9303644					[1] 0.9479338				[1] 0.9424732				[1] 0.9561543
+
+> h2o.confusionMatrix(trainedDRF.1.1, newdata=test.1.1)
+Confusion Matrix (vertical: actual; across: predicted)  for max f1 @ threshold = 0.134737913352873:
+             0      1    Error             Rate
+0      3093165 192860 0.058691  =192860/3286025
+1        41919  43592 0.490218     =41919/85511
+Totals 3135084 236452 0.069636  =234779/3371536
+
+
+
+> h2o.confusionMatrix(trainedDRF.1.2, newdata=test.1.2)
+Confusion Matrix (vertical: actual; across: predicted)  for max f1 @ threshold = 0.146176203140029:
+             0      1    Error             Rate
+0      3159481 126544 0.038510  =126544/3286025
+1        50191  35320 0.586954     =50191/85511
+Totals 3209672 161864 0.052420  =176735/3371536
+
+
+> h2o.confusionMatrix(trainedDRF.2.1, newdata=test.2.1)
+Confusion Matrix (vertical: actual; across: predicted)  for max f1 @ threshold = 0.174125878965104:
+            0     1    Error           Rate
+0      209204 10683 0.048584  =10683/219887
+1        2310  3663 0.386740     =2310/5973
+Totals 211514 14346 0.057527  =12993/225860
+
+
+> h2o.confusionMatrix(trainedDRF.2.2, newdata=test.2.2)
+Confusion Matrix (vertical: actual; across: predicted)  for max f1 @ threshold = 0.207903098721734:
+            0    1    Error           Rate
+0      212774 7113 0.032348   =7113/219887
+1        3165 2808 0.529884     =3165/5973
+Totals 215939 9921 0.045506  =10278/225860
+
+#====================================== DL ============================================================
+
+> meanDL.1.1				> meanDL.1.2				> meanDL.2.1				> meanDL.2.2
+[1] 0.9461753				[1] 0.9283199				[1] 0.9476888				[1] 0.9425042
+
+> h2o.confusionMatrix(trainedDL.1.1, newdata=test.1.1)
+Confusion Matrix (vertical: actual; across: predicted)  for max f1 @ threshold = 0.107917450551496:
+             0      1    Error             Rate
+0      3170088 115937 0.035282  =115937/3286025
+1        62148  23363 0.726784     =62148/85511
+Totals 3232236 139300 0.052820  =178085/3371536
+> h2o.confusionMatrix(trainedDL.1.2, newdata=test.1.2)
+Confusion Matrix (vertical: actual; across: predicted)  for max f1 @ threshold = 0.0185949874046726:
+             0      1    Error             Rate
+0      3104213 181812 0.055329  =181812/3286025
+1        55435  30076 0.648279     =55435/85511
+Totals 3159648 211888 0.070368  =237247/3371536
+> h2o.confusionMatrix(trainedDL.2.1, newdata=test.2.1)
+Confusion Matrix (vertical: actual; across: predicted)  for max f1 @ threshold = 0.0958320014667645:
+            0     1    Error           Rate
+0      210604  9283 0.042217   =9283/219887
+1        2595  3378 0.434455     =2595/5973
+Totals 213199 12661 0.052590  =11878/225860
+> h2o.confusionMatrix(trainedDL.2.2, newdata=test.2.2)
+Confusion Matrix (vertical: actual; across: predicted)  for max f1 @ threshold = 0.0961588959703475:
+            0     1    Error           Rate
+0      209593 10294 0.046815  =10294/219887
+1        2437  3536 0.408003     =2437/5973
+Totals 212030 13830 0.056367  =12731/225860
+
+#====================================== GLM ============================================================
+
+> meanGLM.1.1				> meanGLM.1.2				> meanGLM.2.1				> meanGLM.2.2
+[1] 0.9407015				[1] 0.9407015				[1] 0.9446604				[1] 0.9446604
+
+> h2o.confusionMatrix(trainedGLM.1.1, newdata=test.1.1)
+Confusion Matrix (vertical: actual; across: predicted)  for max f1 @ threshold = 0.122919595020988:
+             0      1    Error             Rate
+0      3137082 148943 0.045326  =148943/3286025
+1        48418  37093 0.566220     =48418/85511
+Totals 3185500 186036 0.058537  =197361/3371536
+> h2o.confusionMatrix(trainedGLM.1.2, newdata=test.1.2)
+Confusion Matrix (vertical: actual; across: predicted)  for max f1 @ threshold = 0.122919595020988:
+             0      1    Error             Rate
+0      3137082 148943 0.045326  =148943/3286025
+1        48418  37093 0.566220     =48418/85511
+Totals 3185500 186036 0.058537  =197361/3371536
+> h2o.confusionMatrix(trainedGLM.2.1, newdata=test.2.1)
+Confusion Matrix (vertical: actual; across: predicted)  for max f1 @ threshold = 0.191096786117835:
+            0     1    Error           Rate
+0      211115  8772 0.039893   =8772/219887
+1        2841  3132 0.475640     =2841/5973
+Totals 213956 11904 0.051417  =11613/225860
+> h2o.confusionMatrix(trainedGLM.2.2, newdata=test.2.2)
+Confusion Matrix (vertical: actual; across: predicted)  for max f1 @ threshold = 0.191096786117835:
+            0     1    Error           Rate
+0      211115  8772 0.039893   =8772/219887
+1        2841  3132 0.475640     =2841/5973
+Totals 213956 11904 0.051417  =11613/225860
+
+#====================================== GBM ============================================================
+
+> meanGBM.1.1				> meanGBM.1.2				> meanGBM.2.1				> meanGBM.2.2
+[1] 0.9518955				[1] 0.9518955				[1] 0.9513238				[1] 0.9513238
+
+> h2o.confusionMatrix(trainedGBM.1.1, newdata=test.1.1)
+Confusion Matrix (vertical: actual; across: predicted)  for max f1 @ threshold = 0.138984694863129:
+             0      1    Error             Rate
+0      3155864 130161 0.039610  =130161/3286025
+1        49098  36413 0.574172     =49098/85511
+Totals 3204962 166574 0.053168  =179259/3371536
+> h2o.confusionMatrix(trainedGBM.1.2, newdata=test.1.2)
+Confusion Matrix (vertical: actual; across: predicted)  for max f1 @ threshold = 0.138984694863129:
+             0      1    Error             Rate
+0      3155864 130161 0.039610  =130161/3286025
+1        49098  36413 0.574172     =49098/85511
+Totals 3204962 166574 0.053168  =179259/3371536
+> h2o.confusionMatrix(trainedGBM.2.1, newdata=test.2.1)
+Confusion Matrix (vertical: actual; across: predicted)  for max f1 @ threshold = 0.17567009156455:
+            0     1    Error           Rate
+0      211728  8159 0.037105   =8159/219887
+1        2649  3324 0.443496     =2649/5973
+Totals 214377 11483 0.047853  =10808/225860
+> h2o.confusionMatrix(trainedGBM.2.2, newdata=test.2.2)
+Confusion Matrix (vertical: actual; across: predicted)  for max f1 @ threshold = 0.17567009156455:
+            0     1    Error           Rate
+0      211728  8159 0.037105   =8159/219887
+1        2649  3324 0.443496     =2649/5973
+Totals 214377 11483 0.047853  =10808/225860

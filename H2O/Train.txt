@@ -1,0 +1,204 @@
+screen
+# screen -r
+grace
+R
+
+library("curl", lib.loc="~/work/RLibs")
+library("httr", lib.loc="~/work/RLibs")
+library("devtools", lib.loc="~/work/RLibs")
+library("RCurl", lib.loc="~/work/RLibs")
+library("h2o", lib.loc="~/work/RLibs")
+
+h2o.init(nthreads = -1, min_mem_size="500G")
+
+trainData = h2o.importFile(path="/home/kbouthou/work/queries/train")
+testData = h2o.importFile(path="/home/kbouthou/work/queries/test")
+
+# dim(trainData)
+# h2o.str(trainData)
+# h2o.str(trainData, cols=TRUE)
+# summary(trainData$neighbor)
+# tab = h2o.table(trainData[,"neighbor"])
+# h2o.print(tab,2)
+
+#  neighbor     Count
+# 1        0 218896102
+# 2        1  19418142
+
+# h2o.anyFactor(trainData)
+
+# head(trainData$neighbor)
+trainData$neighbor = as.factor(trainData$neighbor)
+trainData$same_path = as.factor(trainData$same_path)
+trainData$same_mimetype = as.factor(trainData$same_mimetype)
+trainData$same_filetype = as.factor(trainData$same_filetype)
+trainData$same_filetypeextension = as.factor(trainData$same_filetypeextension)
+trainData$same_imageheight = as.factor(trainData$same_imageheight)
+trainData$same_imagewidth = as.factor(trainData$same_imagewidth)
+trainData$same_exifimageheight = as.factor(trainData$same_exifimageheight)
+trainData$same_exifimagewidth = as.factor(trainData$same_exifimagewidth)
+trainData$same_gpslongituderef = as.factor(trainData$same_gpslongituderef)
+trainData$same_gpslatituderef = as.factor(trainData$same_gpslatituderef)
+trainData$same_gpsaltituderef = as.factor(trainData$same_gpsaltituderef)
+trainData$same_gpsimgdirectionref = as.factor(trainData$same_gpsimgdirectionref)
+trainData$same_orientation = as.factor(trainData$same_orientation)
+trainData$same_flash = as.factor(trainData$same_flash)
+trainData$same_make = as.factor(trainData$same_make)
+trainData$same_model = as.factor(trainData$same_model)
+
+#==================================================================
+
+testData$neighbor = as.factor(testData$neighbor)
+
+testData$same_path = as.factor(testData$same_path)
+testData$same_mimetype = as.factor(testData$same_mimetype)
+testData$same_filetype = as.factor(testData$same_filetype)
+testData$same_filetypeextension = as.factor(testData$same_filetypeextension)
+testData$same_imageheight = as.factor(testData$same_imageheight)
+testData$same_imagewidth = as.factor(testData$same_imagewidth)
+testData$same_exifimageheight = as.factor(testData$same_exifimageheight)
+testData$same_exifimagewidth = as.factor(testData$same_exifimagewidth)
+testData$same_gpslongituderef = as.factor(testData$same_gpslongituderef)
+testData$same_gpslatituderef = as.factor(testData$same_gpslatituderef)
+testData$same_gpsaltituderef = as.factor(testData$same_gpsaltituderef)
+testData$same_gpsimgdirectionref = as.factor(testData$same_gpsimgdirectionref)
+testData$same_orientation = as.factor(testData$same_orientation)
+testData$same_flash = as.factor(testData$same_flash)
+testData$same_make = as.factor(testData$same_make)
+testData$same_model = as.factor(testData$same_model)
+
+# h2o.str(trainData, cols=TRUE)
+
+col.names = colnames(trainData)[-25]
+
+# as.vector(mnist.train$y[i])
+
+trainedDRF = h2o.randomForest(
+    x=col.names,
+    model_id=NULL,
+    training_frame=trainData,
+    validation_frame=testData, # validation_frame=NULL,
+    nfolds=10, # nfolds=0,
+    y="neighbor",
+    keep_cross_validation_predictions=FALSE,
+    keep_cross_validation_fold_assignment=FALSE,
+    score_each_iteration=FALSE,
+    score_tree_interval=0,
+    fold_assignment="AUTO", #c("AUTO", "Random", "Modulo", "Stratified"),
+    fold_column=NULL,
+    # ignored_columns=NULL,
+    ignore_const_cols=TRUE,
+    offset_column=NULL,
+    weights_column=NULL,
+    balance_classes=TRUE,
+    class_sampling_factors=NULL,
+    max_after_balance_size=1,
+    max_hit_ratio_k=0,
+    ntrees=1,
+    max_depth=12,
+    min_rows=1,
+    nbins=20,
+    nbins_top_level=1024,
+    nbins_cats=1024,
+    r2_stopping=Inf,
+    stopping_rounds=0,
+    stopping_metric="AUTO", # c("AUTO", "deviance", "logloss", "mse", "rmse", "mae", "rmsle", "auc", "lift_top_group", "misclassification", "mean_per_class_error"),
+    stopping_tolerance=0.001,
+    max_runtime_secs=0,
+    seed=-1,
+    build_tree_one_node=FALSE,
+    mtries=-1,
+    sample_rate=0.6320000291,
+    sample_rate_per_class=NULL, # Might be used to overcome the unbalanced "neighbor" class distribution: When building models from imbalanced datasets, this option specifies that each tree in the ensemble should sample from the full training dataset using a per-class-specific sampling rate rather than a global sample factor (as with sample_rate). The range for this option is 0.0 to 1.0. Note that this method is sample without replacement.
+    binomial_double_trees=FALSE, # binomial_double_trees=TRUE,
+    checkpoint=NULL, # Might be used to overcome the large size of the training set: Enter a model key associated with a previously trained model. Use this option to build a new model as a continuation of a previously generated model.
+    col_sample_rate_change_per_level=1,
+    col_sample_rate_per_tree=1,
+    min_split_improvement=1e-05,
+    histogram_type="AUTO", # c("AUTO", "UniformAdaptive", "Random", "QuantilesGlobal", "RoundRobin"),
+    categorical_encoding="AUTO", # c("AUTO", "Enum", "OneHotExplicit", "Binary", "Eigen", "LabelEncoder", "SortByResponse"),
+    calibrate_model=FALSE
+    # calibrate_frame=NULL,
+    # verbose=FALSE
+)
+
+trainedDRF.path = h2o.saveModel(object=trainedDRF, path="/home/kbouthou/work/queries", force=TRUE)
+
+# trainedDRF = h2o.loadModel(trainedDRF.path)
+
+h2o.confusionMatrix(trainedDRF)
+h2o.auc(trainedDRF, valid=TRUE)
+h2o.confusionMatrix(trainedDRF, newdata=testData)
+h2o.logloss(trainedDRF, valid=TRUE)
+
+h2o.download_mojo(trainedDRF, "/home/kbouthou/work/queries", FALSE)
+
+java -cp h2o.jar hex.genmodel.tools.PrintMojo --tree 0 -i model.zip -o model.gv
+dot -Tpng model.gv -o model.png
+
+========================================================================================================================
+
+allData = h2o.importFile(path="/home/kbouthou/work/queries/preprocessedData")
+
+splitData = h2o.splitFrame(data=allData2, ratios=c(0.1, 0.2, 0.2, 0.25))
+
+partial.10pc = h2o.assign(splitData[[1]], "partial.10pc")
+partial.20pc.1 = h2o.assign(splitData[[2]], "partial.20pc.1")
+partial.20pc.2 = h2o.assign(splitData[[3]], "partial.20pc.2")
+partial.25pc.1 = h2o.assign(splitData[[4]], "partial.25pc.1")
+partial.25pc.2 = h2o.assign(splitData[[5]], "partial.25pc.2")
+
+nrow(allData2)
+nrow(partial.10pc)
+nrow(partial.20pc.1)
+nrow(partial.20pc.2)
+nrow(partial.25pc.1)
+nrow(partial.25pc.2)
+nrow(partial.10pc)+nrow(partial.20pc.1)+nrow(partial.20pc.2)+nrow(partial.25pc.1)+nrow(partial.25pc.2)
+
+h2o.exportFile(data=partial.10pc, path="/home/kbouthou/work/queries/sampledData/10pc", force=TRUE, parts=-1)
+h2o.exportFile(data=partial.20pc.1, path="/home/kbouthou/work/queries/sampledData/20pc.1", force=TRUE, parts=-1)
+h2o.exportFile(data=partial.20pc.2, path="/home/kbouthou/work/queries/sampledData/20pc.2", force=TRUE, parts=-1)
+h2o.exportFile(data=partial.25pc.1, path="/home/kbouthou/work/queries/sampledData/25pc.1", force=TRUE, parts=-1)
+h2o.exportFile(data=partial.25pc.2, path="/home/kbouthou/work/queries/sampledData/25pc.2", force=TRUE, parts=-1)
+
+splitData.10pc = h2o.splitFrame(data=partial.10pc, ratios=0.8)
+splitData.20pc.1 = h2o.splitFrame(data=partial.20pc.1, ratios=0.8)
+splitData.20pc.2 = h2o.splitFrame(data=partial.20pc.2, ratios=0.8)
+splitData.25pc.1 = h2o.splitFrame(data=partial.25pc.1, ratios=0.8)
+splitData.25pc.2 = h2o.splitFrame(data=partial.25pc.2, ratios=0.8)
+
+h2o.exportFile(data=splitData.10pc[[1]], path="/home/kbouthou/work/queries/sampledData/10pc/train", force=TRUE, parts=-1)
+h2o.exportFile(data=splitData.10pc[[2]], path="/home/kbouthou/work/queries/sampledData/10pc/test", force=TRUE, parts=-1)
+
+h2o.exportFile(data=splitData.20pc.1[[1]], path="/home/kbouthou/work/queries/sampledData/20pc.1/train", force=TRUE, parts=-1)
+h2o.exportFile(data=splitData.20pc.1[[2]], path="/home/kbouthou/work/queries/sampledData/20pc.1/test", force=TRUE, parts=-1)
+
+h2o.exportFile(data=splitData.20pc.2[[1]], path="/home/kbouthou/work/queries/sampledData/20pc.2/train", force=TRUE, parts=-1)
+h2o.exportFile(data=splitData.20pc.2[[2]], path="/home/kbouthou/work/queries/sampledData/20pc.2/test", force=TRUE, parts=-1)
+
+h2o.exportFile(data=splitData.25pc.1[[1]], path="/home/kbouthou/work/queries/sampledData/25pc.1/train", force=TRUE, parts=-1)
+h2o.exportFile(data=splitData.25pc.1[[2]], path="/home/kbouthou/work/queries/sampledData/25pc.1/test", force=TRUE, parts=-1)
+
+h2o.exportFile(data=splitData.25pc.2[[1]], path="/home/kbouthou/work/queries/sampledData/25pc.2/train", force=TRUE, parts=-1)
+h2o.exportFile(data=splitData.25pc.2[[2]], path="/home/kbouthou/work/queries/sampledData/25pc.2/test", force=TRUE, parts=-1)
+
+
+allData$same_path = as.factor(allData$same_path)
+allData$same_mimetype = as.factor(allData$same_mimetype)
+allData$same_filetype = as.factor(allData$same_filetype)
+allData$same_filetypeextension = as.factor(allData$same_filetypeextension)
+allData$same_imageheight = as.factor(allData$same_imageheight)
+allData$same_imagewidth = as.factor(allData$same_imagewidth)
+allData$same_exifimageheight = as.factor(allData$same_exifimageheight)
+allData$same_exifimagewidth = as.factor(allData$same_exifimagewidth)
+allData$same_gpslongituderef = as.factor(allData$same_gpslongituderef)
+allData$same_gpslatituderef = as.factor(allData$same_gpslatituderef)
+allData$same_gpsaltituderef = as.factor(allData$same_gpsaltituderef)
+allData$same_gpsimgdirectionref = as.factor(allData$same_gpsimgdirectionref)
+allData$same_orientation = as.factor(allData$same_orientation)
+allData$same_flash = as.factor(allData$same_flash)
+allData$same_make = as.factor(allData$same_make)
+allData$same_model = as.factor(allData$same_model)
+
+h2o.exportFile(data=allData, path="/home/kbouthou/work/queries/preprocessedData", force=TRUE, parts=-1)

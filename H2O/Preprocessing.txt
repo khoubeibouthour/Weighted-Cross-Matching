@@ -1,0 +1,244 @@
+Upload the folder RLibs under ~/work
+
+
+grace
+
+========================================================================================================
+Install H2O for Hadoop:
+Instructions can be found at https://h2o-release.s3.amazonaws.com/h2o/rel-weierstrass/7/index.html under Hadoop tab
+
+cd ~/work/RLibs
+wget https://h2o-release.s3.amazonaws.com/h2o/rel-weierstrass/7/h2o-3.14.0.7-hdp2.6.zip
+unzip h2o-3.14.0.7-hdp2.6.zip
+cd h2o-3.14.0.7-hdp2.6
+hadoop jar h2odriver.jar -nodes 1 -mapperXmx 6g -output hdfsOutputDirName
+
+(tar -xzf h2o-3.14.0.7-hdp2.6/R/h2o_3.14.0.7.tar.gz
+rm h2o-3.14.0.7-hdp2.6.zip
+rm -r h2o-3.14.0.7-hdp2.6)
+
+========================================================================================================
+Copy RLibs folder to the working directory
+grace
+R
+
+
+library("curl", lib.loc="~/work/RLibs")
+library("httr", lib.loc="~/work/RLibs")
+library("devtools", lib.loc="~/work/RLibs")
+library("RCurl", lib.loc="~/work/RLibs")
+library("h2o", lib.loc="~/work/RLibs")
+
+localH2O <- h2o.init(nthreads = -1)
+trainFrame = h2o.importFile(path="/home/kbouthou/work/trainFolder")
+
+tF1 = h2o.importFile(path="/home/kbouthou/work/queries/f1")
+tF2 = h2o.importFile(path="/home/kbouthou/work/queries/f2")
+tF3 = h2o.importFile(path="/home/kbouthou/work/queries/f3")
+tF4 = h2o.importFile(path="/home/kbouthou/work/queries/f4")
+tF5 = h2o.importFile(path="/home/kbouthou/work/queries/f5")
+tF6 = h2o.importFile(path="/home/kbouthou/work/queries/f6")
+tF7 = h2o.importFile(path="/home/kbouthou/work/queries/f7")
+tF8 = h2o.importFile(path="/home/kbouthou/work/queries/f8")
+
+tF1 = tF1[,-c(1,2)]
+tF2 = tF2[,-c(1,2)]
+tF3 = tF3[,-c(1,2)]
+tF4 = tF4[,-c(1,2)]
+tF5 = tF5[,-c(1,2)]
+tF6 = tF6[,-c(1,2)]
+tF7 = tF7[,-c(1,2)]
+tF8 = tF8[,-c(1,2)]
+
+h2o.exportFile(data=tF1, path="/home/kbouthou/work/queries/df1", force=TRUE, parts=-1)
+h2o.exportFile(data=tF2, path="/home/kbouthou/work/queries/df2", force=TRUE, parts=-1)
+h2o.exportFile(data=tF3, path="/home/kbouthou/work/queries/df3", force=TRUE, parts=-1)
+h2o.exportFile(data=tF4, path="/home/kbouthou/work/queries/df4", force=TRUE, parts=-1)
+h2o.exportFile(data=tF5, path="/home/kbouthou/work/queries/df5", force=TRUE, parts=-1)
+h2o.exportFile(data=tF6, path="/home/kbouthou/work/queries/df6", force=TRUE, parts=-1)
+h2o.exportFile(data=tF7, path="/home/kbouthou/work/queries/df7", force=TRUE, parts=-1)
+h2o.exportFile(data=tF8, path="/home/kbouthou/work/queries/df8", force=TRUE, parts=-1)
+
+h2o.removeAll()
+h2o.shutdown(prompt=FALSE)
+h2o.init(nthreads = -1)
+
+tF1 = h2o.importFile(path="/home/kbouthou/work/queries/df1")
+tF2 = h2o.importFile(path="/home/kbouthou/work/queries/df2")
+tF3 = h2o.importFile(path="/home/kbouthou/work/queries/df3")
+tF4 = h2o.importFile(path="/home/kbouthou/work/queries/df4")
+
+union.df = h2o.rbind(tF1, tF2, tF3, tF4)
+dim(tF1)
+dim(tF2)
+dim(tF3)
+dim(tF4)
+dim(union.df)
+nrow(tF1) + nrow(tF2) + nrow(tF3) + nrow(tF4)
+h2o.exportFile(data=union.df, path="/home/kbouthou/work/queries/h1", force=TRUE, parts=-1)
+
+h2o.removeAll()
+h2o.shutdown(prompt=FALSE)
+h2o.init(nthreads = -1)
+
+tF5 = h2o.importFile(path="/home/kbouthou/work/queries/df5")
+tF6 = h2o.importFile(path="/home/kbouthou/work/queries/df6")
+tF7 = h2o.importFile(path="/home/kbouthou/work/queries/df7")
+tF8 = h2o.importFile(path="/home/kbouthou/work/queries/df8")
+
+union.df = h2o.rbind(tF5, tF6, tF7, tF8)
+dim(tF5)
+dim(tF6)
+dim(tF7)
+dim(tF8)
+dim(union.df)
+nrow(tF5) + nrow(tF6) + nrow(tF7) + nrow(tF8)
+h2o.exportFile(data=union.df, path="/home/kbouthou/work/queries/h2", force=TRUE, parts=-1)
+
+h2o.removeAll()
+h2o.shutdown(prompt=FALSE)
+h2o.init(nthreads = -1)
+
+h1 = h2o.importFile(path="/home/kbouthou/work/queries/h1")
+h2 = h2o.importFile(path="/home/kbouthou/work/queries/h2")
+union.df = h2o.rbind(h1, h2)
+dim(h1)
+dim(h2)
+dim(union.df)
+nrow(h1) + nrow(h2)
+h2o.exportFile(data=union.df, path="/home/kbouthou/work/queries/rawdata", force=TRUE, parts=-1)
+
+h2o.removeAll()
+h2o.shutdown(prompt=FALSE)
+h2o.init(nthreads = -1)
+
+rawdata = h2o.importFile(path="/home/kbouthou/work/queries/rawdata")
+df.split = h2o.splitFrame(data=rawdata, ratios=0.8)
+# h2o.rm(rawdata) # will make the script to fail
+h2o.exportFile(data=df.split[[1]], path="/home/kbouthou/work/queries/trainFolder", force=TRUE, parts=-1)
+h2o.exportFile(data=df.split[[2]], path="/home/kbouthou/work/queries/testFolder", force=TRUE, parts=-1)
+
+h2o.removeAll()
+h2o.shutdown(prompt=FALSE)
+h2o.init(nthreads = -1)
+
+trainFrame = h2o.importFile(path="/home/kbouthou/work/queries/trainFolder")
+# testFrame = h2o.importFile(path="/home/kbouthou/work/queries/testFolder")
+
+
+h2o.exportFile(data=tF1, path="/home/kbouthou/work/queries/dataFrame1.csv", force=TRUE, parts=1)
+h2o.exportFile(data=tF2, path="/home/kbouthou/work/queries/dataFrame2.csv", force=TRUE, parts=1)
+h2o.exportFile(data=tF3, path="/home/kbouthou/work/queries/dataFrame3.csv", force=TRUE, parts=1)
+h2o.exportFile(data=tF4, path="/home/kbouthou/work/queries/dataFrame4.csv", force=TRUE, parts=1)
+h2o.exportFile(data=tF5, path="/home/kbouthou/work/queries/dataFrame5.csv", force=TRUE, parts=1)
+h2o.exportFile(data=tF6, path="/home/kbouthou/work/queries/dataFrame6.csv", force=TRUE, parts=1)
+h2o.exportFile(data=tF7, path="/home/kbouthou/work/queries/dataFrame7.csv", force=TRUE, parts=1)
+h2o.exportFile(data=tF8, path="/home/kbouthou/work/queries/dataFrame8.csv", force=TRUE, parts=1)
+
+
+
+
+=================================================================================================================
+# To use all your CPUs.
+h2o.init(nthreads = -1)
+h2o.shutdown(prompt=FALSE)
+
+Some housekeeping commands: 
+h2o.clusterInfo() #Get the cluster status
+h2o.removeAll() # start with a clean slate 
+
+=================================================================================================================
+
+h1 = h2o.importFile(path="/home/kbouthou/work/queries/h1")
+df.split = h2o.splitFrame(data=h1, ratios=0.8)
+h2o.exportFile(data=df.split[[1]], path="/home/kbouthou/work/queries/h1train", force=TRUE, parts=-1)
+h2o.exportFile(data=df.split[[2]], path="/home/kbouthou/work/queries/h1test", force=TRUE, parts=-1)
+
+
+h2 = h2o.importFile(path="/home/kbouthou/work/queries/h2")
+df.split = h2o.splitFrame(data=h2, ratios=0.8)
+h2o.exportFile(data=df.split[[1]], path="/home/kbouthou/work/queries/h2train", force=TRUE, parts=-1)
+h2o.exportFile(data=df.split[[2]], path="/home/kbouthou/work/queries/h2test", force=TRUE, parts=-1)
+
+h2o.exportFile(data=testFrame, path="/home/kbouthou/work/queries/test", force=TRUE, parts=-1)
+trainFrame = h2o.importFile(path="/home/kbouthou/work/queries/trainFolder")
+h2o.exportFile(data=trainFrame, path="/home/kbouthou/work/queries/train", force=TRUE, parts=-1)
+
+
+=================================================================================================================
+df.split = h2o.splitFrame(data=testData, ratios=0.01)
+h2o.exportFile(data=df.split[[1]], path="/home/kbouthou/work/queries/check", force=TRUE, parts=-1)
+
+=================================================================================================================
+
+allData$same_path = as.factor(allData$same_path)
+allData$same_mimetype = as.factor(allData$same_mimetype)
+allData$same_filetype = as.factor(allData$same_filetype)
+allData$same_filetypeextension = as.factor(allData$same_filetypeextension)
+allData$same_imageheight = as.factor(allData$same_imageheight)
+allData$same_imagewidth = as.factor(allData$same_imagewidth)
+allData$same_exifimageheight = as.factor(allData$same_exifimageheight)
+allData$same_exifimagewidth = as.factor(allData$same_exifimagewidth)
+allData$same_gpslongituderef = as.factor(allData$same_gpslongituderef)
+allData$same_gpslatituderef = as.factor(allData$same_gpslatituderef)
+allData$same_gpsaltituderef = as.factor(allData$same_gpsaltituderef)
+allData$same_gpsimgdirectionref = as.factor(allData$same_gpsimgdirectionref)
+allData$same_orientation = as.factor(allData$same_orientation)
+allData$same_flash = as.factor(allData$same_flash)
+allData$same_make = as.factor(allData$same_make)
+allData$same_model = as.factor(allData$same_model)
+
+str(allData, cols=TRUE)
+
+allData = allData[, -c(3, 7, 8)] # Drop same_mimetype / same_filetype / same_filetypeextension as all observations are 1
+
+h2o.exportFile(data=allData, path="/home/kbouthou/work/queries/preprocessedData", force=TRUE, parts=-1)
+
+
+
+========================================================================================================================
+
+allData = h2o.importFile(path="/home/kbouthou/work/queries/preprocessedData")
+
+splitData = h2o.splitFrame(data=allData2, ratios=c(0.1, 0.2, 0.2, 0.25))
+
+partial.10pc = h2o.assign(splitData[[1]], "partial.10pc")
+partial.20pc.1 = h2o.assign(splitData[[2]], "partial.20pc.1")
+partial.20pc.2 = h2o.assign(splitData[[3]], "partial.20pc.2")
+partial.25pc.1 = h2o.assign(splitData[[4]], "partial.25pc.1")
+partial.25pc.2 = h2o.assign(splitData[[5]], "partial.25pc.2")
+
+nrow(allData2)
+nrow(partial.10pc)
+nrow(partial.20pc.1)
+nrow(partial.20pc.2)
+nrow(partial.25pc.1)
+nrow(partial.25pc.2)
+nrow(partial.10pc)+nrow(partial.20pc.1)+nrow(partial.20pc.2)+nrow(partial.25pc.1)+nrow(partial.25pc.2)
+
+h2o.exportFile(data=partial.10pc, path="/home/kbouthou/work/queries/sampledData/10pc", force=TRUE, parts=-1)
+h2o.exportFile(data=partial.20pc.1, path="/home/kbouthou/work/queries/sampledData/20pc.1", force=TRUE, parts=-1)
+h2o.exportFile(data=partial.20pc.2, path="/home/kbouthou/work/queries/sampledData/20pc.2", force=TRUE, parts=-1)
+h2o.exportFile(data=partial.25pc.1, path="/home/kbouthou/work/queries/sampledData/25pc.1", force=TRUE, parts=-1)
+h2o.exportFile(data=partial.25pc.2, path="/home/kbouthou/work/queries/sampledData/25pc.2", force=TRUE, parts=-1)
+
+splitData.10pc = h2o.splitFrame(data=partial.10pc, ratios=0.8)
+splitData.20pc.1 = h2o.splitFrame(data=partial.20pc.1, ratios=0.8)
+splitData.20pc.2 = h2o.splitFrame(data=partial.20pc.2, ratios=0.8)
+splitData.25pc.1 = h2o.splitFrame(data=partial.25pc.1, ratios=0.8)
+splitData.25pc.2 = h2o.splitFrame(data=partial.25pc.2, ratios=0.8)
+
+h2o.exportFile(data=splitData.10pc[[1]], path="/home/kbouthou/work/queries/sampledData/10pc/train", force=TRUE, parts=-1)
+h2o.exportFile(data=splitData.10pc[[2]], path="/home/kbouthou/work/queries/sampledData/10pc/test", force=TRUE, parts=-1)
+
+h2o.exportFile(data=splitData.20pc.1[[1]], path="/home/kbouthou/work/queries/sampledData/20pc.1/train", force=TRUE, parts=-1)
+h2o.exportFile(data=splitData.20pc.1[[2]], path="/home/kbouthou/work/queries/sampledData/20pc.1/test", force=TRUE, parts=-1)
+
+h2o.exportFile(data=splitData.20pc.2[[1]], path="/home/kbouthou/work/queries/sampledData/20pc.2/train", force=TRUE, parts=-1)
+h2o.exportFile(data=splitData.20pc.2[[2]], path="/home/kbouthou/work/queries/sampledData/20pc.2/test", force=TRUE, parts=-1)
+
+h2o.exportFile(data=splitData.25pc.1[[1]], path="/home/kbouthou/work/queries/sampledData/25pc.1/train", force=TRUE, parts=-1)
+h2o.exportFile(data=splitData.25pc.1[[2]], path="/home/kbouthou/work/queries/sampledData/25pc.1/test", force=TRUE, parts=-1)
+
+h2o.exportFile(data=splitData.25pc.2[[1]], path="/home/kbouthou/work/queries/sampledData/25pc.2/train", force=TRUE, parts=-1)
+h2o.exportFile(data=splitData.25pc.2[[2]], path="/home/kbouthou/work/queries/sampledData/25pc.2/test", force=TRUE, parts=-1)

@@ -1,0 +1,41 @@
+From A to Z:
+- The data folder:	/work/kbouthou/First-Attempt
+- Data file name:	-215627790964325.txt
+- Current working directory: /work/kbouthou
+
+# Load the environment:
+grace
+cd work
+
+export PATH=/usr/java/jdk1.7.0_67-cloudera/bin:$PATH
+export JAVA_HOME=/usr/java/jdk1.7.0_67-cloudera/
+export MAHOUT_HOME=/work/kbouthou/apache-mahout-distribution-0.11.0
+export PATH=$MAHOUT_HOME/bin:$PATH
+export CLASSPATH=$CLASSPATH:$(mahout classpath | tail -n1)
+
+
+# Create the HDFS data folder and import the data in it:
+hadoop fs -rm -r testAttempt #to remove the folder if it exists
+hadoop fs -mkdir testAttempt
+hadoop fs -put First-Attempt/-215627790964325.txt testAttempt/
+
+# Generate a file descriptor for the dataset:
+hadoop jar $MAHOUT_HOME/mahout-mr-0.11.0-job.jar org.apache.mahout.classifier.df.tools.Describe -p testAttempt/-215627790964325.txt -f testAttempt/dataDescription.info -d I I C N C 3 N 4 C 3 N 2 C 3 N 8 C N L
+
+
+rm First-Attempt/dataDescription.info
+hadoop fs -rm testAttempt/-215627790964325.txt
+hadoop fs -put First-Attempt/-215627790964325.txt testAttempt/
+hadoop fs -rm testAttempt/dataDescription.info
+hadoop jar $MAHOUT_HOME/mahout-mr-0.11.0-job.jar org.apache.mahout.classifier.df.tools.Describe -p testAttempt/-215627790964325.txt -f testAttempt/dataDescription.info -d 2 I C N C 3 N 4 C 3 N 2 C 3 N 8 C N L
+
+hadoop fs -get testAttempt/dataDescription.info First-Attempt
+
+# Run Random forest classifier:
+hadoop fs -rm -r testAttempt-Forest
+hadoop jar $MAHOUT_HOME/mahout-examples-0.11.0-job.jar org.apache.mahout.classifier.df.mapreduce.BuildForest -Dmapred.max.split.size=1874231 -d testAttempt/-215627790964325.txt -ds testAttempt/dataDescription.info -sl 5 -p -t 100 -o testAttempt-Forest
+hadoop fs -get testAttempt-Forest/forest.seq First-Attempt
+
+
+
+Exception in thread "main" java.lang.IllegalArgumentException: values not found for attribute 20 --> It means that for a given numeric variable, none of the observations had a value

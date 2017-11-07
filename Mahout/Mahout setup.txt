@@ -1,0 +1,33 @@
+source:
+https://developer.ibm.com/hadoop/2015/12/01/manually-install-apache-mahout-iop-4-1/
+
+Mahout distributions can be found here:
+https://mahout.apache.org/general/downloads.html
+
+Download any version, e.g. from any mirror:
+wget http://mirror.cc.columbia.edu/pub/software/apache/mahout/0.11.0/apache-mahout-distribution-0.11.0.tar.gz
+
+then uncompress the file to the desired location
+tar xzvf apache-mahout-distribution-0.11.0.tar.gz -C ./here (or in the current folder tar xzvf apache-mahout-distribution-0.11.0.tar.gz)
+
+/******* Do not need to run this if correctly configured *******
+export HADOOP_HOME=/usr
+export HADOOP_CONF_DIR=$HADOOP_HOME/conf
+export SPARK_HOME=/usr/lib/spark
+***************************************************************/
+
+
+export PATH=/usr/java/jdk1.7.0_67-cloudera/bin:$PATH
+export JAVA_HOME=/usr/java/jdk1.7.0_67-cloudera/
+export MAHOUT_HOME=/work/kbouthou/apache-mahout-distribution-0.11.0
+export PATH=$MAHOUT_HOME/bin:$PATH
+export CLASSPATH=$CLASSPATH:$(mahout classpath | tail -n1)
+
+
+===========================================================================
+
+wget http://archive.ics.uci.edu/ml/databases/synthetic_control/synthetic_control.data
+hadoop fs -mkdir testdata
+hadoop fs -put synthetic_control.data testdata
+mahout org.apache.mahout.clustering.syntheticcontrol.kmeans.Job
+mahout clusterdump -i output/clusters-10-final -p output/clusteredPoints -o clusteranalyze.txt

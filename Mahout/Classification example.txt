@@ -1,0 +1,42 @@
+Data: https://github.com/jmnwong/NSL-KDD-Dataset
+
+Tutorial:
+https://mahout.apache.org/users/classification/partial-implementation.html
+
+Create a folder to put the original data in it:
+
+mkdir Mahout-Classification-Test
+wget https://raw.githubusercontent.com/jmnwong/NSL-KDD-Dataset/master/KDDTrain%2B.arff -P Mahout-Classification-Test/
+wget https://raw.githubusercontent.com/jmnwong/NSL-KDD-Dataset/master/KDDTest%2B.arff -P Mahout-Classification-Test/
+
+Open the train and test files “KDDTrain+.ARFF” and “KDDTest+.ARFF” and remove all the lines that begin with ‘@’. All those lines are at the top of the files. Actually you can keep those lines somewhere, because they’ll help us describe the dataset to Mahout.
+
+Create the HDFS data folder and import the data in it:
+hadoop fs -rm -r testdata #to remove the folder if it exists
+hadoop fs -mkdir testdata
+hadoop fs -put Mahout-Classification-Test/KDDTrain+.arff testdata/
+
+Generate a file descriptor for the dataset:
+hadoop jar $MAHOUT_HOME/mahout-mr-0.13.0-job.jar org.apache.mahout.classifier.df.tools.Describe -p testdata/KDDTrain+.arff -f testdata/KDDTrain+.info -d N 3 C 2 N C 4 N C 8 N 2 C 19 N L
+The “N 3 C 2 N C 4 N C 8 N 2 C 19 N L” string describes all the attributes of the data. In this cases, it means 1 numerical(N) attribute, followed by 3 Categorical(C) attributes, …L indicates the label. You can also use ‘I’ to ignore some attributes
+This command generate a file with a JSON string describing the variables: class, levels of each categorical variable, labels, etc.
+
+Retrieve the file to visualize the content:
+hdfs dfs -get testdata/KDDTrain+.info Mahout-Classification-Test
+
+Run Random forest classifier:
+hadoop jar $MAHOUT_HOME/mahout-examples-0.11.0-job.jar org.apache.mahout.classifier.df.mapreduce.BuildForest -Dmapred.max.split.size=1874231 -d testdata/KDDTrain+.arff -ds testdata/KDDTrain+.info -sl 5 -p -t 100 -o nsl-forest
+which builds 100 trees (-t argument) using the partial implementation (-p). 
+Each tree is built using 5 random selected attribute per node (-sl argument) and the example outputs the decision tree in the “nsl-forest” directory (-o). 
+The number of partitions is controlled by the -Dmapred.max.split.size argument that indicates to Hadoop the max. size of each partition, in this case 1/10 of the size of the dataset. 
+Thus 10 partitions will be used. 
+IMPORTANT: using less partitions should give better classification results, but needs a lot of memory. So if the Jobs are failing, try increasing the number of partitions.
+
+
+Build the Job files:
+mvn clean install -DskipTests
+
+
+
+    For now, the training does not support multiple input files. The input dataset must be one single file (this support will be available with the upcoming release). Classifying new data does support multiple input files.
+    The tree building is done when each mapper.close() method is called. Because the mappers don’t refresh their state, the job can fail when the dataset is big and you try to build a large number of trees.

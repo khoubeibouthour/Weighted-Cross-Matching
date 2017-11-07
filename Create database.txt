@@ -1,0 +1,87 @@
+CREATE TABLE profiles (
+	profile_id VARCHAR2(25) NOT NULL,
+	name VARCHAR2(100) NOT NULL,
+	description VARCHAR2(2500) NOT NULL,
+	CONSTRAINT profiles_pk PRIMARY KEY (profile_id)
+);
+
+CREATE TABLE folders (
+	folder_id VARCHAR2(25) NOT NULL,
+	path VARCHAR2(500) NOT NULL,
+	completed NUMBER(1) DEFAULT 0 NOT NULL,
+	CONSTRAINT folder_pk PRIMARY KEY (folder_id)
+);
+
+CREATE TABLE images (
+	image_id VARCHAR2(25) NOT NULL,
+	path_id VARCHAR2(25) NOT NULL,
+	path VARCHAR2(500) NOT NULL,
+	name VARCHAR2(250) NOT NULL,
+	nbr_faces NUMBER(2) NOT NULL,
+	identified_faces NUMBER(2) DEFAULT 0 NOT NULL,
+	mimetype VARCHAR2(15) NOT NULL,
+	fileaccessdate DATE NOT NULL,
+	filemodifydate DATE NOT NULL,
+	filesize NUMBER(8) NOT NULL,
+	filetype VARCHAR2(5) NOT NULL,
+	filetypeextension VARCHAR2(8) NOT NULL,
+	imageheight NUMBER(5) NOT NULL,
+	imagewidth NUMBER(5) NOT NULL,
+	datetimeoriginal DATE,
+	createdate DATE,
+	modifydate DATE,
+	exifimageheight NUMBER(5),
+	exifimagewidth NUMBER(5),
+	gpslongitude FLOAT,
+	gpslatitude FLOAT,
+	gpsaltitude FLOAT,
+	gpsimgdirection FLOAT,
+	gpslongituderef VARCHAR2(3),
+	gpslatituderef VARCHAR2(3),
+	gpsaltituderef VARCHAR2(3),
+	gpsimgdirectionref VARCHAR2(3),
+	gpstimestamp DATE,
+	orientation NUMBER(1),
+	flash NUMBER(3),
+	make VARCHAR2(30),
+	model VARCHAR2(50),
+	CONSTRAINT image_pk PRIMARY KEY (image_id),
+	CONSTRAINT folder_fk
+ 		FOREIGN KEY (path_id)
+ 		REFERENCES folders(folder_id)
+		ON DELETE CASCADE
+);
+
+CREATE TABLE faces (
+	face_id VARCHAR2(25) NOT NULL,
+	profile VARCHAR2(25) DEFAULT NULL,
+	image VARCHAR2(25) NOT NULL,
+	left NUMBER(5) NOT NULL,
+	top NUMBER(5) NOT NULL,
+	right NUMBER(5) NOT NULL,
+	bottom NUMBER(5) NOT NULL,
+	filename VARCHAR2(2500) NOT NULL,
+	description VARCHAR2(2500) NOT NULL,
+	label VARCHAR2(25) DEFAULT NULL,
+	CONSTRAINT face_pk PRIMARY KEY (face_id),
+	CONSTRAINT image_fk
+		FOREIGN KEY (image)
+		REFERENCES images(image_id)
+		ON DELETE CASCADE
+);
+
+CREATE TABLE comparisons(
+	profile		VARCHAR2(25)	NOT NULL,
+	face		VARCHAR2(25)	NOT NULL,
+	face_recog	FLOAT			NOT NULL,
+    label       NUMBER(1)       NOT NULL,
+	CONSTRAINT comparison_pk PRIMARY KEY(profile, face),
+	CONSTRAINT profile_fk
+		FOREIGN KEY(profile)
+		REFERENCES profiles(profile_id)
+		ON DELETE CASCADE,
+	CONSTRAINT face_fk
+		FOREIGN	KEY(face)
+		REFERENCES faces(face_id)
+		ON DELETE CASCADE
+);
